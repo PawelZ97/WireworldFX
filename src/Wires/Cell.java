@@ -31,7 +31,20 @@ public class Cell {
 
     @Override
     public String toString() {
-        return state.toString();
+        if (state.equals(State.CONDUCTOR)) {
+            return "C";
+        }
+        else if (state.equals(State.ELETAIL)) {
+            return "T";
+        }
+
+        else if (state.equals(State.ELEHEAD)) {
+            return "H";
+        }
+
+        else  {
+            return "_";
+        }
     }
 }
 
