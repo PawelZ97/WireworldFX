@@ -1,4 +1,4 @@
-package Gui;
+package Wires;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,24 +11,13 @@ import java.awt.geom.Rectangle2D;
 public class DrawBoard extends JPanel {
     private static final int DEFAULT_WIDTH = 100;
     private static final int DEFAULT_HEIGHT = 100;
-    private int scale = 4;
+    private int scale = 5;
 
     public void paintComponent(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
-        double topleftX = 100;
-        double topleftY = 100;
-        Rectangle2D rect = new Rectangle2D.Double(0,0,scale * 10,scale * 10);
-        g2D.setPaint(Color.RED);
-        g2D.draw(rect);
-        g2D.fill(rect);
-        Rectangle2D rect2 = new Rectangle2D.Double(10 * scale,0,scale * 10,scale * 10);
-        g2D.setPaint(Color.BLUE);
-        g2D.draw(rect2);
-        g2D.fill(rect2);
-        Rectangle2D rect3 = new Rectangle2D.Double(0,10 * scale,scale * 10,scale * 10);
-        g2D.setPaint(Color.YELLOW);
-        g2D.draw(rect3);
-        g2D.fill(rect3);
+        DrawCell c1 = new DrawCell(g2D, 0,0, scale, Cell.State.CONDUCTOR);
+        DrawCell c2 = new DrawCell(g2D, 1,0, scale, Cell.State.ELEHEAD);
+        DrawCell c3 = new DrawCell(g2D, 0,1, scale, Cell.State.ELETAIL);
         g2D.setPaint(Color.BLACK);
 
         for (int i = 0; i <= 10 ; i++) {

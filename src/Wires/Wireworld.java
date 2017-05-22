@@ -7,6 +7,7 @@ import static java.lang.Thread.sleep;
  */
 public class Wireworld {
     public static void main (String[] args) throws InterruptedException {
+
         Board bef = new Board(10,10);
         bef.setBoardCellState(4,4, Cell.State.ELEHEAD);
         for(int i = 1; i<9; i++)
