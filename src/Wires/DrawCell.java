@@ -23,9 +23,9 @@ public class DrawCell {
         if (state.equals(Cell.State.CONDUCTOR))
             return Color.YELLOW;
         else if (state.equals(Cell.State.ELEHEAD))
-            return Color.BLUE;
-        else if (state.equals(Cell.State.ELETAIL))
             return Color.RED;
+        else if (state.equals(Cell.State.ELETAIL))
+            return Color.BLUE;
         else
             return Color.LIGHT_GRAY;
     }
