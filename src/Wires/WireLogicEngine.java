@@ -4,11 +4,11 @@ package Wires;
 /**
  * Created by zychp_w10 on 14.05.2017.
  */
-public class Engine {
+public class WireLogicEngine {
     private Board before;
     private Board after;
 
-    public Engine(Board before, Board after) {
+    public WireLogicEngine(Board before, Board after) {
         this.before = before;
         this.after = after;
     }
