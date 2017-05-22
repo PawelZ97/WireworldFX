@@ -18,17 +18,9 @@ public class DrawBoard extends JPanel {
         DrawCell c1 = new DrawCell(g2D, 0,0, scale, Cell.State.CONDUCTOR);
         DrawCell c2 = new DrawCell(g2D, 1,0, scale, Cell.State.ELEHEAD);
         DrawCell c3 = new DrawCell(g2D, 0,1, scale, Cell.State.ELETAIL);
-        g2D.setPaint(Color.BLACK);
-
-        for (int i = 0; i <= 10 ; i++) {
-            Line2D line = new Line2D.Double(scale * 10 * i, 0, scale * 10 * i, scale * 100);
-            g2D.setStroke(new BasicStroke(2));
-            g2D.draw(line);
-        }
-        for (int i = 0; i <= 10 ; i++) {
-            Line2D line = new Line2D.Double(0, scale * 10 * i, scale * 100, scale * 10 * i);
-            g2D.draw(line);
-        }
+        DrawCell c4 = new DrawCell(g2D, 0,2, scale, Cell.State.EMPTY);
+        DrawCell c5 = new DrawCell(g2D, 5,5, scale, Cell.State.ELETAIL);
+        DrawNet n = new DrawNet(g2D,10,12, scale,2);
     }
 
     public Dimension getPreferredSize() {
