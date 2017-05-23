@@ -23,14 +23,22 @@ public class Gui {
     private JFormattedTextField delayTextField1;
     private JLabel gennumLabel;
 
+    private Action saveAction;
+    private Action saveAsAction;
+    private JCheckBoxMenuItem readonlyItem;
+    private JPopupMenu popup;
+
+    private int x_size=10;
+    private int y_size=10;
     private boolean run;
     private boolean startflag;
     private int gennum;
     private int delay;
 
+
     public Gui() throws Exception {
-        DrawBoard drawboard = new DrawBoard();
-        WireLogic logic = new WireLogic();
+        DrawBoard drawboard = new DrawBoard(x_size,y_size,5);
+        WireLogic logic = new WireLogic(x_size,y_size);
         EventQueue.invokeLater(() ->
         {
             mainpanel = new JPanel();
@@ -155,13 +163,49 @@ public class Gui {
             drawboard.repaint();
             drawpanel.add(drawboard);
 
+            JMenu fileMenu = new JMenu("File");
+            fileMenu.add(new AbstractAction("New")
+            {
+                public void actionPerformed(ActionEvent event)
+                {
+                    System.exit(0);
+                }
+            });
+            fileMenu.addSeparator();
+            fileMenu.add(new AbstractAction("Open")
+            {
+                public void actionPerformed(ActionEvent event)
+                {
+                    System.exit(0);
+                }
+            });
+            fileMenu.add(new AbstractAction("Save")
+            {
+                public void actionPerformed(ActionEvent event)
+                {
+                    System.exit(0);
+                }
+            });
+            fileMenu.addSeparator();
+            fileMenu.add(new AbstractAction("Close")
+            {
+                public void actionPerformed(ActionEvent event)
+                {
+                    System.exit(0);
+                }
+            });
+            JMenuBar menuBar = new JMenuBar();
+            menuBar.add(fileMenu);
+
             JFrame frame = new JFrame();
             frame.add(mainpanel);
+            frame.setJMenuBar(menuBar);
             frame.pack();
             frame.setTitle("Wirewold");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLocationByPlatform(true);
             frame.setVisible(true);
+
 
             runButton.addActionListener(new ActionListener() {
                 @Override

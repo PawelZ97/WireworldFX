@@ -4,13 +4,18 @@ package Wires;
  * Created by zychp_w10 on 12.05.2017.
  */
 public class WireLogic {
+    private int x_size;
+    private int y_size;
     private Board bef;
     private Board aft;
     private WireLogicEngine eng;
 
-    public WireLogic() throws Exception {
-        bef = new Board(10, 10);
-        aft = new Board(10, 10);
+
+    public WireLogic(int x_size, int y_size) throws Exception {
+        this.x_size = x_size;
+        this.y_size = y_size;
+        bef = new Board(x_size, y_size);
+        aft = new Board(x_size, y_size);
         eng = new WireLogicEngine(bef, aft);
 
         bef.setBoardCellState(4, 4, Cell.State.ELEHEAD);
@@ -36,8 +41,8 @@ public class WireLogic {
     public void tick() throws Exception {
         eng.calculate();
         eng.copy();
-        eng.setAfter(new Board(10, 10));
-        //eng.getBefore().printBoardConsole();b  cf
+        eng.setAfter(new Board(x_size, y_size));
+        //eng.getBefore().printBoardConsole();
     }
 }
 

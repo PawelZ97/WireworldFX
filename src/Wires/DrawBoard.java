@@ -2,18 +2,26 @@ package Wires;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Created by zychp_w10 on 22.05.2017.
  */
 public class DrawBoard extends JPanel {
-    private static final int DEFAULT_WIDTH = 100;
-    private static final int DEFAULT_HEIGHT = 100;
+    private static int defaultSize;
+    private int x_size;
+    private int y_size;
+    private int scale;
     private Board actual;
-    private int scale = 3;
 
+    {
+        defaultSize = 10;
+    }
+
+    public DrawBoard(int x_size, int y_size, int scale) {
+        this.x_size = x_size;
+        this.y_size = y_size;
+        this.scale = scale;
+    }
 
     public void setActual(Board actual) {
         this.actual = actual;
@@ -21,14 +29,14 @@ public class DrawBoard extends JPanel {
 
     public void paintComponent(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
-        for (int i = 0; i < 10; i++) {
-            for (int j= 0; j < 10; j++){
+        for (int i = 0; i < x_size; i++) {
+            for (int j= 0; j < y_size; j++){
                 DrawCell c = new DrawCell(g2D, i, j, scale, actual.getBoardCellState(i,j));
             }
         }
-        DrawNet n = new DrawNet(g2D,20,20, scale,3);
+        DrawNet n = new DrawNet(g2D, x_size, y_size, scale,3);
     }
     public Dimension getPreferredSize() {
-        return new Dimension(DEFAULT_WIDTH * scale ,DEFAULT_HEIGHT* scale);
+        return new Dimension(defaultSize* x_size * scale ,defaultSize * y_size * scale);
     }
 }

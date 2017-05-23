@@ -24,8 +24,8 @@ public class Prototype {
     private JLabel gennumLabel;
 
     public Prototype() throws Exception {
-        DrawBoard drawboard = new DrawBoard();
-        WireLogic logic = new WireLogic();
+        DrawBoard drawboard = new DrawBoard(5, 5, 5);
+        WireLogic logic = new WireLogic(5, 5);
         EventQueue.invokeLater(() ->
         {
             JFrame frame = new JFrame();
@@ -179,11 +179,12 @@ public class Prototype {
         gbc.anchor = GridBagConstraints.WEST;
         controlpanel.add(label3, gbc);
         gennumLabel = new JLabel();
+        gennumLabel.setHorizontalAlignment(0);
+        gennumLabel.setHorizontalTextPosition(0);
         gennumLabel.setText("gennum");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.EAST;
         controlpanel.add(gennumLabel, gbc);
         drawpanel = new JPanel();
         drawpanel.setLayout(new GridBagLayout());
