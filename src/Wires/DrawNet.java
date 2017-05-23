@@ -9,7 +9,7 @@ import java.awt.geom.Line2D;
 public class DrawNet {
     private static int defaultSize;
     {
-        defaultSize = 10;
+        defaultSize = 1;
     }
 
     public DrawNet(Graphics2D g2D, int cols, int rows, int scale, int width) {

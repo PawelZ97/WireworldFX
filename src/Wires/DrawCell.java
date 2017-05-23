@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 public class DrawCell {
     private static int defaultSize;
     {
-        defaultSize = 10;
+        defaultSize = 1;
     }
 
     public DrawCell(Graphics2D g2D, int x_pos, int y_pos, int scale, Cell.State state) {

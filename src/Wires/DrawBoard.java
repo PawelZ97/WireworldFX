@@ -14,7 +14,7 @@ public class DrawBoard extends JPanel {
     private Board actual;
 
     {
-        defaultSize = 10;
+        defaultSize = 1;
     }
 
     public DrawBoard(int x_size, int y_size, int scale) {
@@ -34,7 +34,7 @@ public class DrawBoard extends JPanel {
                 DrawCell c = new DrawCell(g2D, i, j, scale, actual.getBoardCellState(i,j));
             }
         }
-        DrawNet n = new DrawNet(g2D, x_size, y_size, scale,3);
+        DrawNet n = new DrawNet(g2D, x_size, y_size, scale,1);
     }
     public Dimension getPreferredSize() {
         return new Dimension(defaultSize* x_size * scale ,defaultSize * y_size * scale);

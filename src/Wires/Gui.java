@@ -28,8 +28,8 @@ public class Gui {
     private JCheckBoxMenuItem readonlyItem;
     private JPopupMenu popup;
 
-    private int x_size=10;
-    private int y_size=10;
+    private int x_size=20;
+    private int y_size=20;
     private boolean run;
     private boolean startflag;
     private int gennum;
@@ -37,7 +37,7 @@ public class Gui {
 
 
     public Gui() throws Exception {
-        DrawBoard drawboard = new DrawBoard(x_size,y_size,5);
+        DrawBoard drawboard = new DrawBoard(x_size,y_size,20);
         WireLogic logic = new WireLogic(x_size,y_size);
         EventQueue.invokeLater(() ->
         {
