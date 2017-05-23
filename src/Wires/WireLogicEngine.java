@@ -34,8 +34,8 @@ public class WireLogicEngine {
     }
 
     public void calculate(){
-        int x = before.getX();
-        int y = before.getY();
+        int x = before.getX_size();
+        int y = before.getY_size();
 
         for(int i =0; i<x;i++) {
             for(int j = 0; j <y; j++) {

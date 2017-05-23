@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 import static java.lang.Thread.sleep;
 
@@ -28,8 +29,8 @@ public class Gui {
     private JCheckBoxMenuItem readonlyItem;
     private JPopupMenu popup;
 
-    private int x_size=20;
-    private int y_size=20;
+    private int x_size=10;
+    private int y_size=10;
     private boolean run;
     private boolean startflag;
     private int gennum;
@@ -37,7 +38,7 @@ public class Gui {
 
 
     public Gui() throws Exception {
-        DrawBoard drawboard = new DrawBoard(x_size,y_size,20);
+        DrawBoard drawboard = new DrawBoard(x_size,y_size,30);
         WireLogic logic = new WireLogic(x_size,y_size);
         EventQueue.invokeLater(() ->
         {
@@ -176,14 +177,27 @@ public class Gui {
             {
                 public void actionPerformed(ActionEvent event)
                 {
-                    System.exit(0);
+                    try {
+                        logic.getEng().getBefore().readBoardFromFile("save.txt",1000,1000);   //DO POPRAWY !!!!!!
+                        System.out.println("Board Read:");
+                        logic.getEng().getBefore().printBoardToConsole();
+                        drawboard.setActual(logic.getEng().getBefore());
+                        drawboard.repaint();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             fileMenu.add(new AbstractAction("Save")
             {
                 public void actionPerformed(ActionEvent event)
                 {
-                    System.exit(0);
+                    try {
+                        logic.getEng().getBefore().printBoardToFile("save.txt");
+                        System.out.println("Board Saved");
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             fileMenu.addSeparator();

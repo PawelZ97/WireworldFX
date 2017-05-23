@@ -28,10 +28,10 @@ public class WireLogic {
         bef.setBoardCellState(4, 4, Cell.State.ELEHEAD);
         bef.setBoardCellState(4, 3, Cell.State.ELETAIL);
 
-        System.out.println("BEFORE:");
-        bef.printBoardConsole();
-        System.out.println("AFTER:");
-        aft.printBoardConsole();
+        //System.out.println("BEFORE:");
+        //bef.printBoardToConsole();
+        //System.out.println("AFTER:");
+        //aft.printBoardToConsole();
     }
 
     public WireLogicEngine getEng() {
@@ -42,7 +42,7 @@ public class WireLogic {
         eng.calculate();
         eng.copy();
         eng.setAfter(new Board(x_size, y_size));
-        //eng.getBefore().printBoardConsole();
+        //eng.getBefore().printBoardToConsole();
     }
 }
 
