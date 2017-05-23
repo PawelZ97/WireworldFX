@@ -13,7 +13,7 @@ public class DrawNet {
     }
 
     public DrawNet(Graphics2D g2D, int cols, int rows, int scale, int width) {
-        g2D.setColor(Color.BLACK);
+        g2D.setColor(Color.DARK_GRAY);
         g2D.setStroke(new BasicStroke(width));
         for (int i = 0; i <= cols ; i++) {
             Line2D line = new Line2D.Double(scale * defaultSize * i, 0, scale * defaultSize * i, scale * defaultSize * rows);

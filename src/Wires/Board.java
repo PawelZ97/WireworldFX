@@ -46,10 +46,10 @@ public class Board {
     }
 
     public void printBoardConsole() {
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                System.out.print(getBoardCell(i,j)+ " ");
-            }
+        for (int i = 0; i < y; i++) {
+            for (int j = 0; j < x; j++) {
+                System.out.print(getBoardCell(j,i)+ " ");
+        }
             System.out.print("\n");
         }
 

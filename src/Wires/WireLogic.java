@@ -37,7 +37,7 @@ public class WireLogic {
         eng.calculate();
         eng.copy();
         eng.setAfter(new Board(10, 10));
-        eng.getBefore().printBoardConsole();
+        //eng.getBefore().printBoardConsole();b  cf
     }
 }
 
