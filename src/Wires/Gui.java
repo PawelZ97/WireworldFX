@@ -23,6 +23,7 @@ public class Gui {
     private JButton stopButton;
     private JFormattedTextField delayTextField1;
     private JLabel gennumLabel;
+    private JButton stepButton;
 
     private Action saveAction;
     private Action saveAsAction;
@@ -53,13 +54,14 @@ public class Gui {
             gbc.fill = GridBagConstraints.BOTH;
             mainpanel.add(controlpanel, gbc);
             runButton = new JButton();
+            runButton.setBackground(new Color(-15139070));
+            runButton.setForeground(new Color(-16777216));
             runButton.setText("Run");
             runButton.setVerticalAlignment(3);
             runButton.setVerticalTextPosition(3);
             gbc = new GridBagConstraints();
             gbc.gridx = 0;
             gbc.gridy = 10;
-            gbc.anchor = GridBagConstraints.SOUTH;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             controlpanel.add(runButton, gbc);
             electronTailButton = new JButton();
@@ -114,10 +116,12 @@ public class Gui {
             gbc.fill = GridBagConstraints.HORIZONTAL;
             controlpanel.add(electronHeadButton, gbc);
             stopButton = new JButton();
+            stopButton.setBackground(new Color(-60928));
+            stopButton.setForeground(new Color(-16777216));
             stopButton.setText("Stop");
             gbc = new GridBagConstraints();
             gbc.gridx = 0;
-            gbc.gridy = 11;
+            gbc.gridy = 12;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             controlpanel.add(stopButton, gbc);
             delayTextField1 = new JFormattedTextField();
@@ -143,14 +147,25 @@ public class Gui {
             gbc.anchor = GridBagConstraints.WEST;
             controlpanel.add(label3, gbc);
             gennumLabel = new JLabel();
+            gennumLabel.setHorizontalAlignment(0);
+            gennumLabel.setHorizontalTextPosition(0);
             gennumLabel.setText("gennum");
             gbc = new GridBagConstraints();
             gbc.gridx = 0;
             gbc.gridy = 4;
-            gbc.anchor = GridBagConstraints.CENTER;
             controlpanel.add(gennumLabel, gbc);
+            stepButton = new JButton();
+            stepButton.setBackground(new Color(-3080448));
+            stepButton.setForeground(new Color(-16777216));
+            stepButton.setText("Step");
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 11;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            controlpanel.add(stepButton, gbc);
             drawpanel = new JPanel();
             drawpanel.setLayout(new GridBagLayout());
+            drawpanel.setMinimumSize(new Dimension(0, 0));
             gbc = new GridBagConstraints();
             gbc.gridx = 1;
             gbc.gridy = 0;
@@ -228,6 +243,15 @@ public class Gui {
                     delay = Integer.parseInt(delayTextField1.getText());
                     startflag = true;
                     run = true;
+                }
+            });
+
+            stepButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    startflag = true;
+                    run = true;
+                    gennum=1;
                 }
             });
 
