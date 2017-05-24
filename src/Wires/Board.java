@@ -16,23 +16,31 @@ public class Board {
     public Board(int x_size, int y_size) {
         this.x_size = x_size;
         this.y_size = y_size;
-        board = new Cell[x_size][y_size];
-        for(int i = 0; i < x_size; i++) {
-            for (int j = 0; j < y_size; j++) {
+        board = new Cell[x_size+2][y_size+2];
+        for(int i = 0; i < x_size+2; i++) {
+            for (int j = 0; j < y_size+2; j++) {
                 board[i][j] = new Cell(Cell.State.EMPTY);
             }
         }
     }
 
     public void setBoardCellState(int x, int y, Cell.State state) {
+        board[x+1][y+1].setState(state);
+    }
+
+    public void setBorderBoardCellState(int x, int y, Cell.State state) {
         board[x][y].setState(state);
     }
 
     public Cell.State getBoardCellState(int x, int y) {
+        return  board[x+1][y+1].getState();
+    }
+
+    public Cell.State getBorderBoardCellState(int x, int y) {
         return  board[x][y].getState();
     }
 
-    public Cell getBoardCell(int x, int y) { return board[x][y]; }
+    public Cell getBoardCell(int x, int y) { return board[x+1][y+1]; }
 
     public int getX_size() {
         return x_size;
@@ -42,11 +50,11 @@ public class Board {
         return y_size;
     }
 
-    public Cell[][] getBoard() {
+    public Cell[][] getBorderBoard() {
         return board;
     }
 
-    public void setBoard(Cell[][] board) {
+    public void setBorderBoard(Cell[][] board) {
         this.board = board;
     }
 

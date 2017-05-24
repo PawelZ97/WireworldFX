@@ -43,41 +43,41 @@ public class WireLogicEngine {
     }
 
     private void copy(){
-        before.setBoard(after.getBoard().clone());
+        before.setBorderBoard(after.getBorderBoard().clone());
     }
 
     private void calculate(){
         int x = before.getX_size();
         int y = before.getY_size();
 
-        for(int i =0; i<x;i++) {
-            for(int j = 0; j <y; j++) {
-                if (before.getBoardCellState(i,j).equals(Cell.State.EMPTY)) {
-                    after.setBoardCellState(i,j, Cell.State.EMPTY);
+        for(int i =1; i<x+1;i++) {    //Pętle przemierzają tylko środek board
+            for(int j = 1; j <y+1; j++) {
+                if (before.getBorderBoardCellState(i,j).equals(Cell.State.EMPTY)) {
+                    after.setBorderBoardCellState(i,j, Cell.State.EMPTY);
                 }
-                else if(before.getBoardCellState(i,j).equals(Cell.State.ELEHEAD)) {
-                    after.setBoardCellState(i,j, Cell.State.ELETAIL);
+                else if(before.getBorderBoardCellState(i,j).equals(Cell.State.ELEHEAD)) {
+                    after.setBorderBoardCellState(i,j, Cell.State.ELETAIL);
                 }
-                else if(before.getBoardCellState(i,j).equals(Cell.State.ELETAIL)) {
-                    after.setBoardCellState(i,j, Cell.State.CONDUCTOR);
+                else if(before.getBorderBoardCellState(i,j).equals(Cell.State.ELETAIL)) {
+                    after.setBorderBoardCellState(i,j, Cell.State.CONDUCTOR);
                 }
                 else {
                     int sum=0;
                     for (int k = j-1; k <= j+1; k++)
                     {
-                        if (before.getBoardCellState(i-1,k).equals(Cell.State.ELEHEAD))
+                        if (before.getBorderBoardCellState(i-1,k).equals(Cell.State.ELEHEAD))
                             sum ++;
-                        if (before.getBoardCellState(i+1,k).equals(Cell.State.ELEHEAD))
+                        if (before.getBorderBoardCellState(i+1,k).equals(Cell.State.ELEHEAD))
                             sum ++;
                                             }
-                    if (before.getBoardCellState(i,j-1).equals(Cell.State.ELEHEAD))
+                    if (before.getBorderBoardCellState(i,j-1).equals(Cell.State.ELEHEAD))
                         sum ++;
-                    if (before.getBoardCellState(i,j+1).equals(Cell.State.ELEHEAD))
+                    if (before.getBorderBoardCellState(i,j+1).equals(Cell.State.ELEHEAD))
                         sum ++;
                     if (sum == 1 || sum == 2)
-                        after.setBoardCellState(i,j, Cell.State.ELEHEAD);
+                        after.setBorderBoardCellState(i,j, Cell.State.ELEHEAD);
                     else
-                        after.setBoardCellState(i,j, Cell.State.CONDUCTOR);
+                        after.setBorderBoardCellState(i,j, Cell.State.CONDUCTOR);
                 }
             }
         }
