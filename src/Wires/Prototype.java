@@ -26,7 +26,7 @@ public class Prototype {
 
     public Prototype() throws Exception {
         DrawBoard drawboard = new DrawBoard(5, 5, 5);
-        WireLogic logic = new WireLogic(5, 5);
+        WireLogicEngine logic = new WireLogicEngine(5, 5);
         EventQueue.invokeLater(() ->
         {
             JFrame frame = new JFrame();
@@ -39,7 +39,7 @@ public class Prototype {
 
         for (int i = 0; i < 100; i++) {
             logic.tick();
-            drawboard.setActual(logic.getEng().getBefore());
+            drawboard.setActual(logic.getBefore());
             drawboard.repaint();
             sleep(200);
         }

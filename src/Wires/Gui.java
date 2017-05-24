@@ -39,8 +39,21 @@ public class Gui {
 
 
     public Gui() throws Exception {
+
+        Board bef = new Board(x_size, y_size);
+        bef.setBoardCellState(4, 4, Cell.State.ELEHEAD);
+        for (int i = 1; i < 9; i++)
+            bef.setBoardCellState(4, i, Cell.State.CONDUCTOR);
+        for (int i = 1; i < 9; i++)
+            bef.setBoardCellState(6, i, Cell.State.CONDUCTOR);
+        bef.setBoardCellState(5, 1, Cell.State.CONDUCTOR);
+        bef.setBoardCellState(5, 8, Cell.State.CONDUCTOR);
+        bef.setBoardCellState(4, 4, Cell.State.ELEHEAD);
+        bef.setBoardCellState(4, 3, Cell.State.ELETAIL);
+
         DrawBoard drawboard = new DrawBoard(x_size,y_size,30);
-        WireLogic logic = new WireLogic(x_size,y_size);
+        WireLogicEngine logic = new WireLogicEngine(bef);
+
         EventQueue.invokeLater(() ->
         {
             mainpanel = new JPanel();
@@ -175,10 +188,12 @@ public class Gui {
             mainpanel.add(drawpanel, gbc);
 
 
-            drawboard.setActual(logic.getEng().getBefore());
+            drawboard.setActual(logic.getBefore());
             drawboard.repaint();
             drawpanel.add(drawboard);
 
+
+            JFrame frame = new JFrame();
             JMenu fileMenu = new JMenu("File");
             fileMenu.add(new AbstractAction("New")
             {
@@ -192,15 +207,21 @@ public class Gui {
             {
                 public void actionPerformed(ActionEvent event)
                 {
+                    BoardReader reader = new BoardReader(1000,1000,"save.txt");
+                    Board boardread = null;
                     try {
-                        logic.getEng().getBefore().readBoardFromFile("save.txt",1000,1000);
-                        System.out.println("Board Read:");
-                        logic.getEng().getBefore().printBoardToConsole();
-                        drawboard.setActual(logic.getEng().getBefore());
-                        drawboard.repaint();
-                    } catch (FileNotFoundException e) {
+                        boardread = reader.readBoardFromFile();
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    System.out.println("Board Read:");
+                    boardread.printBoardToConsole();
+                    //WireLogicEngine logic = new WireLogicEngine(boardread);
+                    logic.setBefore(boardread);
+                    drawboard.setActual(boardread);
+                    drawboard.repaint();
+                    frame.pack();
+
                 }
             });
             fileMenu.add(new AbstractAction("Save")
@@ -208,7 +229,7 @@ public class Gui {
                 public void actionPerformed(ActionEvent event)
                 {
                     try {
-                        logic.getEng().getBefore().printBoardToFile("save.txt");
+                        logic.getBefore().printBoardToFile("save.txt");
                         System.out.println("Board Saved");
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -226,7 +247,6 @@ public class Gui {
             JMenuBar menuBar = new JMenuBar();
             menuBar.add(fileMenu);
 
-            JFrame frame = new JFrame();
             frame.add(mainpanel);
             frame.setJMenuBar(menuBar);
             frame.pack();
@@ -234,7 +254,6 @@ public class Gui {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLocationByPlatform(true);
             frame.setVisible(true);
-
 
             runButton.addActionListener(new ActionListener() {
                 @Override
@@ -273,7 +292,7 @@ public class Gui {
             }
             for (int i = 1; (i <= gennum) && run ; i++) {
                 logic.tick();
-                drawboard.setActual(logic.getEng().getBefore());
+                drawboard.setActual(logic.getBefore());
                 drawboard.repaint();
                 gennumLabel.setText(Integer.toString(i));
                 sleep(delay);

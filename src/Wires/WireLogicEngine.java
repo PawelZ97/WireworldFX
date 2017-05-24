@@ -5,35 +5,48 @@ package Wires;
  * Created by zychp_w10 on 14.05.2017.
  */
 public class WireLogicEngine {
+    private int x_size;
+    private int y_size;
     private Board before;
     private Board after;
 
-    public WireLogicEngine(Board before, Board after) {
+    public WireLogicEngine(int x_size, int y_size) {
+        this.x_size = x_size;
+        this.y_size = y_size;
+        this.before = new Board(x_size,y_size);
+        this.after = new Board(x_size, y_size);
+    }
+
+    public WireLogicEngine(Board before) {
         this.before = before;
-        this.after = after;
+        this.x_size = before.getX_size();
+        this.y_size = before.getY_size();
+        this.after = new Board(x_size, y_size);
     }
 
     public void setBefore(Board before) {
         this.before = before;
+        this.x_size = before.getX_size();
+        this.y_size = before.getY_size();
+        this.after = new Board(x_size, y_size);
     }
 
     public Board getBefore() {
         return before;
     }
 
-    public void setAfter(Board after) {
-        this.after = after;
+    public void tick() throws Exception {
+        calculate();
+        copy();
+        after = new Board(x_size, y_size);
+        //getBefore().printBoardToConsole();
     }
 
-    public Board getAfter() {
-        return after;
-    }
-
-    public void copy(){
+    private void copy(){
         before.setBoard(after.getBoard().clone());
     }
 
-    public void calculate(){
+    private void calculate(){
         int x = before.getX_size();
         int y = before.getY_size();
 

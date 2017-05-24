@@ -60,37 +60,6 @@ public class Board {
 
     }
 
-    public void readBoardFromFile(String filename, int x_size_max, int y_size_max) throws FileNotFoundException {
-        File file = new File(filename);
-        Scanner in = new Scanner(file);
-        int x_read = 0;
-        int y_read = 0;
-        Cell[][] tmpboard = new Cell[x_size_max][y_size_max];
-        while (in.hasNextLine()) {
-
-            String line = in.nextLine();
-            x_read = (line.length() / 2);
-            String[] code = line.split("-");
-            for (int i = 0; i < x_read; i++) {
-                if (code[i].equals("C"))
-                    tmpboard[i][y_read] = new Cell(Cell.State.CONDUCTOR);
-                else if (code[i].equals("H"))
-                    tmpboard[i][y_read] = new Cell(Cell.State.ELEHEAD);
-                else if (code[i].equals("T"))
-                    tmpboard[i][y_read] = new Cell(Cell.State.ELETAIL);
-                else
-                    tmpboard[i][y_read] = new Cell(Cell.State.EMPTY);
-            }
-            y_read++;
-        }
-        x_size = x_read;
-        y_size = y_read;
-        for(int i=0; i< x_read; i++) {
-            for(int j=0; j< y_read; j++)
-               board[i][j]= tmpboard[i][j];
-        }
-    }
-
     public void printBoardToFile(String filename) throws FileNotFoundException {
         PrintWriter out = new PrintWriter(filename);
         for (int i = 0; i < y_size; i++) {

@@ -25,6 +25,8 @@ public class DrawBoard extends JPanel {
 
     public void setActual(Board actual) {
         this.actual = actual;
+        this.x_size = actual.getX_size();
+        this.y_size = actual.getY_size();
     }
 
     public void paintComponent(Graphics g) {
