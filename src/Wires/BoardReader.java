@@ -12,23 +12,27 @@ public class BoardReader {
     private int y_size;
     private int x_size_max;
     private int y_size_max;
-    private String filename;
+    private File file;
 
-    public BoardReader(int x_size_max, int y_size_max, String filename) {
+    public BoardReader(int x_size_max, int y_size_max, File file) {
         this.x_size_max = x_size_max;
         this.y_size_max = y_size_max;
-        this.filename = filename;
+        this.file = file;
     }
 
     public Board readBoardFromFile() throws Exception {
-        File file = new File(filename);
         Scanner in = new Scanner(file);
-        int x_read = 0;
-        int y_read = 0;
         Cell[][] tmpboard = new Cell[x_size_max][y_size_max];
+        int x_read;
+        int y_read = 0;
+        x_read = (in.nextLine().length() / 2);
+        in = new Scanner(file);
+        if (x_read > x_size_max)
+            throw new Exception("Read x_size is too big " + Integer.toString(x_read));
         while (in.hasNextLine()) {
             String line = in.nextLine();
-            x_read = (line.length() / 2);
+            if ((line.length() / 2) != x_read)
+                throw new Exception("Board file bad structure. Not the same line lenght.");
             String[] code = line.split("-");
             for (int i = 0; i < x_read; i++) {
                 if (code[i].equals("C"))
@@ -41,6 +45,8 @@ public class BoardReader {
                     tmpboard[i][y_read] = new Cell(Cell.State.EMPTY);
             }
             y_read++;
+            if (y_read > y_size_max)
+                throw new Exception("Read y_size is too big " + Integer.toString(y_read));
         }
         x_size = x_read;
         y_size = y_read;

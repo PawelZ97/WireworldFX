@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import static java.lang.Thread.sleep;
@@ -22,7 +23,7 @@ public class Gui {
     private JFormattedTextField generationsTextField1;
     private JButton stopButton;
     private JFormattedTextField delayTextField1;
-    private JLabel gennumLabel;
+    private JLabel infoLabel;
     private JButton stepButton;
 
     private Action saveAction;
@@ -159,14 +160,14 @@ public class Gui {
             gbc.gridy = 3;
             gbc.anchor = GridBagConstraints.WEST;
             controlpanel.add(label3, gbc);
-            gennumLabel = new JLabel();
-            gennumLabel.setHorizontalAlignment(0);
-            gennumLabel.setHorizontalTextPosition(0);
-            gennumLabel.setText("gennum");
+            infoLabel = new JLabel();
+            infoLabel.setHorizontalAlignment(0);
+            infoLabel.setHorizontalTextPosition(0);
+            infoLabel.setText("gennum");
             gbc = new GridBagConstraints();
             gbc.gridx = 0;
             gbc.gridy = 4;
-            controlpanel.add(gennumLabel, gbc);
+            controlpanel.add(infoLabel, gbc);
             stepButton = new JButton();
             stepButton.setBackground(new Color(-3080448));
             stepButton.setForeground(new Color(-16777216));
@@ -194,6 +195,11 @@ public class Gui {
 
 
             JFrame frame = new JFrame();
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new File("."));
+            JMenuBar menuBar = new JMenuBar();
+
+
             JMenu fileMenu = new JMenu("File");
             fileMenu.add(new AbstractAction("New")
             {
@@ -207,16 +213,16 @@ public class Gui {
             {
                 public void actionPerformed(ActionEvent event)
                 {
-                    BoardReader reader = new BoardReader(1000,1000,"save.txt");
+                    chooser.showOpenDialog(frame);
+                    BoardReader reader = new BoardReader(200,200, chooser.getSelectedFile());
                     Board boardread = null;
                     try {
                         boardread = reader.readBoardFromFile();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    System.out.println("Board Read:");
+                    infoLabel.setText("Board Read " + Integer.toString(boardread.getX_size()) + " x " + Integer.toString(boardread.getY_size()));
                     boardread.printBoardToConsole();
-                    //WireLogicEngine logic = new WireLogicEngine(boardread);
                     logic.setBefore(boardread);
                     drawboard.setActual(boardread);
                     drawboard.repaint();
@@ -228,9 +234,10 @@ public class Gui {
             {
                 public void actionPerformed(ActionEvent event)
                 {
+                    chooser.showSaveDialog(frame);
                     try {
-                        logic.getBefore().printBoardToFile("save.txt");
-                        System.out.println("Board Saved");
+                        logic.getBefore().printBoardToFile(chooser.getSelectedFile().getPath());
+                        infoLabel.setText("Board Saved");
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -244,7 +251,6 @@ public class Gui {
                     System.exit(0);
                 }
             });
-            JMenuBar menuBar = new JMenuBar();
             menuBar.add(fileMenu);
 
             frame.add(mainpanel);
@@ -294,7 +300,7 @@ public class Gui {
                 logic.tick();
                 drawboard.setActual(logic.getBefore());
                 drawboard.repaint();
-                gennumLabel.setText(Integer.toString(i));
+                infoLabel.setText(Integer.toString(i));
                 sleep(delay);
             }
         }
