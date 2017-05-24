@@ -70,7 +70,7 @@ public class Board {
 
             String line = in.nextLine();
             x_read = (line.length() / 2);
-            String[] code = line.split(" ");
+            String[] code = line.split("-");
             for (int i = 0; i < x_read; i++) {
                 if (code[i].equals("C"))
                     tmpboard[i][y_read] = new Cell(Cell.State.CONDUCTOR);
@@ -87,7 +87,7 @@ public class Board {
         y_size = y_read;
         for(int i=0; i< x_read; i++) {
             for(int j=0; j< y_read; j++)
-                tmpboard[i][j]=board[i][j];
+               board[i][j]= tmpboard[i][j];
         }
     }
 
@@ -95,7 +95,7 @@ public class Board {
         PrintWriter out = new PrintWriter(filename);
         for (int i = 0; i < y_size; i++) {
             for (int j = 0; j < x_size; j++) {
-                out.print(getBoardCell(j,i)+ " ");
+                out.print(getBoardCell(j,i)+ "-");
             }
             out.print("\n");
         }

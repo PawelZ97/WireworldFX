@@ -178,7 +178,7 @@ public class Gui {
                 public void actionPerformed(ActionEvent event)
                 {
                     try {
-                        logic.getEng().getBefore().readBoardFromFile("save.txt",1000,1000);   //DO POPRAWY !!!!!!
+                        logic.getEng().getBefore().readBoardFromFile("save.txt",1000,1000);
                         System.out.println("Board Read:");
                         logic.getEng().getBefore().printBoardToConsole();
                         drawboard.setActual(logic.getEng().getBefore());
