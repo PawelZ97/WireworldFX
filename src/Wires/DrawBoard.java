@@ -41,4 +41,8 @@ public class DrawBoard extends JPanel {
     public Dimension getPreferredSize() {
         return new Dimension(defaultSize* x_size * scale ,defaultSize * y_size * scale);
     }
+
+    public void setScale(int scale) {
+        this.scale = scale;
+    }
 }

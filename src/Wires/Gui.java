@@ -1,11 +1,10 @@
 package Wires;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -30,6 +29,11 @@ public class Gui {
     private JButton emptyButton;
     private JPanel drawtoolspanel;
     private JLabel statusLabel;
+    private JSlider scaleslider1;
+    private JPanel scalesetpanel;
+    private JLabel scaleLabel;
+
+    private JCheckBoxMenuItem scaleCheckBoxMenu;
 
     private int x_size_max=100;
     private int y_size_max=100;
@@ -66,6 +70,7 @@ public class Gui {
             // GENERATED CODE
             mainpanel = new JPanel();
             mainpanel.setLayout(new GridBagLayout());
+            mainpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null));
             controlpanel = new JPanel();
             controlpanel.setLayout(new GridBagLayout());
             controlpanel.setMaximumSize(new Dimension(120, 415));
@@ -73,7 +78,7 @@ public class Gui {
             controlpanel.setPreferredSize(new Dimension(120, 415));
             GridBagConstraints gbc;
             gbc = new GridBagConstraints();
-            gbc.gridx = 0;
+            gbc.gridx = 1;
             gbc.gridy = 0;
             gbc.fill = GridBagConstraints.BOTH;
             mainpanel.add(controlpanel, gbc);
@@ -163,7 +168,7 @@ public class Gui {
             drawpanel.setLayout(new GridBagLayout());
             drawpanel.setMinimumSize(new Dimension(0, 0));
             gbc = new GridBagConstraints();
-            gbc.gridx = 2;
+            gbc.gridx = 3;
             gbc.gridy = 0;
             gbc.weightx = 20.0;
             gbc.weighty = 20.0;
@@ -177,11 +182,11 @@ public class Gui {
             drawtoolspanel.setOpaque(true);
             drawtoolspanel.setPreferredSize(new Dimension(120, 415));
             gbc = new GridBagConstraints();
-            gbc.gridx = 1;
+            gbc.gridx = 2;
             gbc.gridy = 0;
             gbc.fill = GridBagConstraints.BOTH;
             mainpanel.add(drawtoolspanel, gbc);
-            drawtoolspanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null));
+            drawtoolspanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null));
             conductorButton = new JButton();
             conductorButton.setBackground(new Color(-924610));
             conductorButton.setEnabled(true);
@@ -256,6 +261,51 @@ public class Gui {
             gbc.weighty = 1.0;
             gbc.fill = GridBagConstraints.VERTICAL;
             drawtoolspanel.add(spacer2, gbc);
+            scalesetpanel = new JPanel();
+            scalesetpanel.setLayout(new GridBagLayout());
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.fill = GridBagConstraints.BOTH;
+            mainpanel.add(scalesetpanel, gbc);
+            scalesetpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), null));
+            scaleslider1 = new JSlider();
+            scaleslider1.setInverted(false);
+            scaleslider1.setMinimum(1);
+            scaleslider1.setOrientation(1);
+            scaleslider1.setPaintLabels(false);
+            scaleslider1.setPaintTicks(false);
+            scaleslider1.setPaintTrack(true);
+            scaleslider1.setValue(40);
+            scaleslider1.setValueIsAdjusting(false);
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            gbc.anchor = GridBagConstraints.NORTH;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            scalesetpanel.add(scaleslider1, gbc);
+            final JLabel label6 = new JLabel();
+            label6.setText("Scale:");
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.anchor = GridBagConstraints.NORTHWEST;
+            scalesetpanel.add(label6, gbc);
+            scaleLabel = new JLabel();
+            scaleLabel.setText(" ");
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            gbc.anchor = GridBagConstraints.NORTHWEST;
+            scalesetpanel.add(scaleLabel, gbc);
+            final JPanel spacer3 = new JPanel();
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 3;
+            gbc.weightx = 1.0;
+            gbc.weighty = 1.0;
+            gbc.fill = GridBagConstraints.VERTICAL;
+            scalesetpanel.add(spacer3, gbc);
             // END OF GENERATED CODE
 
             drawboard.setActual(logic.getBefore());
@@ -336,7 +386,25 @@ public class Gui {
                 }
             });
             menuBar.add(fileMenu);
-            JMenu editMenu = new JMenu("Tools");
+            JMenu editMenu = new JMenu("Toolbars");
+            scaleCheckBoxMenu = new JCheckBoxMenuItem("Scale set");
+            scaleCheckBoxMenu.setSelected(true);
+            scaleLabel.setText(""+scale);
+            scaleCheckBoxMenu.addActionListener(new ActionListener()
+            {
+                public void actionPerformed(ActionEvent event)
+                {
+                    if (scaleCheckBoxMenu.isSelected()) {
+                        scalesetpanel.setVisible(true);
+                        frame.pack();
+                    }
+                    else {
+                        scalesetpanel.setVisible(false);
+                        frame.pack();
+                    }
+                }
+            });
+            editMenu.add(scaleCheckBoxMenu);
             editMenu.add(new AbstractAction("Run")
             {
                 public void actionPerformed(ActionEvent event)
@@ -402,6 +470,18 @@ public class Gui {
                 }
             });
 
+            scaleslider1.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    scale = scaleslider1.getValue();
+                    scaleLabel.setText(""+scale);
+                    drawboard.setScale(scale);
+                    drawboard.revalidate();
+                    drawboard.repaint();
+                    frame.pack();
+                }
+            });
+
             drawpanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -413,11 +493,15 @@ public class Gui {
                     int x_cell = x/scale;
                     if (x_cell >= x_size)
                        x_cell = x_size-1;
+                    if (x_cell < 0)
+                        x_cell = 0;
                     int y_cell = y/scale;
                     if (y_cell >= y_size)
                         y_cell = y_size-1;
+                    if (y_cell < 0)
+                        y_cell = 0;
                     infoLabel.setText("MC: X:" + x +" Y:"+ y);
-                    statusLabel.setText("MC: X:" + x/scale +" Y:"+ y/scale);
+                    statusLabel.setText("MC: X:" + x_cell +" Y:"+ y_cell);
                     if (drawcell==ColorState.CONDUCTOR)
                         logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.CONDUCTOR);
                     else if (drawcell==ColorState.ELEHEAD)
@@ -426,7 +510,42 @@ public class Gui {
                         logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.ELETAIL);
                     else
                         logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.EMPTY);
-                    logic.getBefore().printBorderBoardToConsole();
+                    //logic.getBefore().printBorderBoardToConsole();
+                    drawboard.setActual(logic.getBefore());
+                    drawboard.repaint();
+                    frame.pack();
+                }
+            });
+
+            drawpanel.addMouseMotionListener(new MouseMotionAdapter() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    super.mouseDragged(e);
+                    int x_size = logic.getBefore().getX_size();
+                    int y_size = logic.getBefore().getY_size();
+                    int x = e.getX()-2;
+                    int y = e.getY()-2;
+                    int x_cell = x/scale;
+                    if (x_cell >= x_size)
+                        x_cell = x_size-1;
+                    if (x_cell < 0)
+                        x_cell = 0;
+                    int y_cell = y/scale;
+                    if (y_cell >= y_size)
+                        y_cell = y_size-1;
+                    if (y_cell < 0)
+                        y_cell = 0;
+                    infoLabel.setText("MD: X:" + x +" Y:"+ y);
+                    statusLabel.setText("MD: X:" + x_cell +" Y:"+ y_cell);
+                    if (drawcell==ColorState.CONDUCTOR)
+                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.CONDUCTOR);
+                    else if (drawcell==ColorState.ELEHEAD)
+                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.ELEHEAD);
+                    else if (drawcell==ColorState.ELETAIL)
+                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.ELETAIL);
+                    else
+                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.EMPTY);
+                    //logic.getBefore().printBorderBoardToConsole();
                     drawboard.setActual(logic.getBefore());
                     drawboard.repaint();
                     frame.pack();
