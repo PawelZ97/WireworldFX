@@ -39,7 +39,7 @@ public class WireLogicEngine {
         calculate();
         copy();
         after = new Board(x_size, y_size);
-        //getBefore().printBoardToConsole();
+        //getBefore().printBorderBoardToConsole();
     }
 
     private void copy(){

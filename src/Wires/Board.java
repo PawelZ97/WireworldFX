@@ -1,9 +1,7 @@
 package Wires;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Scanner;
 
 /**
  * Created by zychp_w10 on 12.05.2017.
@@ -42,6 +40,8 @@ public class Board {
 
     public Cell getBoardCell(int x, int y) { return board[x+1][y+1]; }
 
+    public Cell getBorderBoardCell(int x, int y) { return board[x][y]; }
+
     public int getX_size() {
         return x_size;
     }
@@ -58,10 +58,10 @@ public class Board {
         this.board = board;
     }
 
-    public void printBoardToConsole() {
-        for (int i = 0; i < y_size; i++) {
-            for (int j = 0; j < x_size; j++) {
-                System.out.print(getBoardCell(j,i)+ " ");
+    public void printBorderBoardToConsole() {
+        for (int i = 0; i < y_size+2; i++) {
+            for (int j = 0; j < x_size+2; j++) {
+                System.out.print(getBorderBoardCell(j,i)+ " ");
         }
             System.out.print("\n");
         }
