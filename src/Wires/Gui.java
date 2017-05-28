@@ -3,6 +3,8 @@ package Wires;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -14,35 +16,39 @@ import static java.lang.Thread.sleep;
  * Created by zychp_w10 on 22.05.2017.
  */
 public class Gui {
-    private JButton runButton;
-    private JPanel drawpanel;
-    private JPanel controlpanel;
     private JPanel mainpanel;
+    private JPanel controlpanel;
+    private JPanel drawpanel;
+    private JPanel drawtoolspanel;
+    private JPanel scalesetpanel;
     private JFormattedTextField generationsTextField1;
     private JButton stopButton;
-    private JFormattedTextField delayTextField1;
     private JLabel infoLabel;
     private JButton stepButton;
-    private JButton electronTailButton;
+    private JFormattedTextField delayTextField1;
+    private JButton runButton;
     private JButton conductorButton;
     private JButton electronHeadButton;
+    private JButton electronTailButton;
     private JButton emptyButton;
-    private JPanel drawtoolspanel;
     private JLabel statusLabel;
+    private JList componentslist1;
     private JSlider scaleslider1;
-    private JPanel scalesetpanel;
     private JLabel scaleLabel;
 
     private JCheckBoxMenuItem scaleCheckBoxMenu;
 
-    private int x_size_max=100;
-    private int y_size_max=100;
+    private int x_size_max = 100;
+    private int y_size_max = 100;
     private int scale;
     private boolean run;
     private boolean startflag;
     private int gennum;
     private int delay;
-    enum ColorState {EMPTY, ELEHEAD, ELETAIL, CONDUCTOR};
+
+    enum ColorState {EMPTY, ELEHEAD, ELETAIL, CONDUCTOR}
+
+    ;
     private ColorState drawcell = ColorState.EMPTY;
 
 
@@ -62,7 +68,7 @@ public class Gui {
         bef.setBoardCellState(4, 4, Cell.State.ELEHEAD);
         bef.setBoardCellState(4, 3, Cell.State.ELETAIL);
 
-        DrawBoard drawboard = new DrawBoard(def_x_size,def_y_size,scale);
+        DrawBoard drawboard = new DrawBoard(def_x_size, def_y_size, scale);
         WireLogicEngine logic = new WireLogicEngine(bef);
 
         EventQueue.invokeLater(() ->
@@ -74,7 +80,7 @@ public class Gui {
             controlpanel = new JPanel();
             controlpanel.setLayout(new GridBagLayout());
             controlpanel.setMaximumSize(new Dimension(120, 415));
-            controlpanel.setMinimumSize(new Dimension(110, 415));
+            controlpanel.setMinimumSize(new Dimension(120, 415));
             controlpanel.setPreferredSize(new Dimension(120, 415));
             GridBagConstraints gbc;
             gbc = new GridBagConstraints();
@@ -162,6 +168,7 @@ public class Gui {
             gbc = new GridBagConstraints();
             gbc.gridx = 0;
             gbc.gridy = 7;
+            gbc.weightx = 1.0;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             controlpanel.add(runButton, gbc);
             drawpanel = new JPanel();
@@ -178,7 +185,7 @@ public class Gui {
             drawtoolspanel = new JPanel();
             drawtoolspanel.setLayout(new GridBagLayout());
             drawtoolspanel.setMaximumSize(new Dimension(150, 415));
-            drawtoolspanel.setMinimumSize(new Dimension(110, 415));
+            drawtoolspanel.setMinimumSize(new Dimension(120, 415));
             drawtoolspanel.setOpaque(true);
             drawtoolspanel.setPreferredSize(new Dimension(120, 415));
             gbc = new GridBagConstraints();
@@ -196,6 +203,7 @@ public class Gui {
             gbc = new GridBagConstraints();
             gbc.gridx = 0;
             gbc.gridy = 0;
+            gbc.weightx = 1.0;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             drawtoolspanel.add(conductorButton, gbc);
             electronHeadButton = new JButton();
@@ -232,14 +240,6 @@ public class Gui {
             gbc.gridy = 7;
             gbc.anchor = GridBagConstraints.WEST;
             drawtoolspanel.add(label4, gbc);
-            final JScrollPane scrollPane1 = new JScrollPane();
-            scrollPane1.setVerticalScrollBarPolicy(22);
-            gbc = new GridBagConstraints();
-            gbc.gridx = 0;
-            gbc.gridy = 8;
-            gbc.weighty = 1.0;
-            gbc.fill = GridBagConstraints.BOTH;
-            drawtoolspanel.add(scrollPane1, gbc);
             final JLabel label5 = new JLabel();
             label5.setText("Status:");
             gbc = new GridBagConstraints();
@@ -248,11 +248,10 @@ public class Gui {
             gbc.anchor = GridBagConstraints.WEST;
             drawtoolspanel.add(label5, gbc);
             statusLabel = new JLabel();
-            statusLabel.setText("");
+            statusLabel.setText(" ");
             gbc = new GridBagConstraints();
             gbc.gridx = 0;
             gbc.gridy = 5;
-            gbc.anchor = GridBagConstraints.WEST;
             drawtoolspanel.add(statusLabel, gbc);
             final JPanel spacer2 = new JPanel();
             gbc = new GridBagConstraints();
@@ -261,6 +260,22 @@ public class Gui {
             gbc.weighty = 1.0;
             gbc.fill = GridBagConstraints.VERTICAL;
             drawtoolspanel.add(spacer2, gbc);
+            final JScrollPane scrollPane1 = new JScrollPane();
+            scrollPane1.setVerticalScrollBarPolicy(22);
+            gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 8;
+            gbc.fill = GridBagConstraints.BOTH;
+            drawtoolspanel.add(scrollPane1, gbc);
+            componentslist1 = new JList();
+            final DefaultListModel defaultListModel1 = new DefaultListModel();
+            defaultListModel1.addElement("None");
+            defaultListModel1.addElement("Diode");
+            defaultListModel1.addElement("Diode Rev");
+            defaultListModel1.addElement("AND");
+            defaultListModel1.addElement("OR");
+            componentslist1.setModel(defaultListModel1);
+            scrollPane1.setViewportView(componentslist1);
             scalesetpanel = new JPanel();
             scalesetpanel.setLayout(new GridBagLayout());
             gbc = new GridBagConstraints();
@@ -296,7 +311,7 @@ public class Gui {
             gbc = new GridBagConstraints();
             gbc.gridx = 0;
             gbc.gridy = 1;
-            gbc.anchor = GridBagConstraints.NORTHWEST;
+            gbc.anchor = GridBagConstraints.NORTH;
             scalesetpanel.add(scaleLabel, gbc);
             final JPanel spacer3 = new JPanel();
             gbc = new GridBagConstraints();
@@ -312,7 +327,6 @@ public class Gui {
             drawboard.repaint();
             drawpanel.add(drawboard);
 
-
             JFrame frame = new JFrame();
             JFileChooser chooser = new JFileChooser();
             chooser.setCurrentDirectory(new File("."));
@@ -320,10 +334,8 @@ public class Gui {
 
 
             JMenu fileMenu = new JMenu("File");
-            fileMenu.add(new AbstractAction("New")
-            {
-                public void actionPerformed(ActionEvent event)
-                {
+            fileMenu.add(new AbstractAction("New") {
+                public void actionPerformed(ActionEvent event) {
                     NewDialog dialog = new NewDialog(100, 100);
                     dialog.pack();
                     dialog.setTitle("New");
@@ -342,12 +354,10 @@ public class Gui {
                 }
             });
             fileMenu.addSeparator();
-            fileMenu.add(new AbstractAction("Open")
-            {
-                public void actionPerformed(ActionEvent event)
-                {
+            fileMenu.add(new AbstractAction("Open") {
+                public void actionPerformed(ActionEvent event) {
                     chooser.showOpenDialog(frame);
-                    BoardReader reader = new BoardReader(x_size_max,y_size_max, chooser.getSelectedFile());
+                    BoardReader reader = new BoardReader(x_size_max, y_size_max, chooser.getSelectedFile());
                     Board boardread = null;
                     try {
                         boardread = reader.readBoardFromFile();
@@ -364,10 +374,8 @@ public class Gui {
 
                 }
             });
-            fileMenu.add(new AbstractAction("Save")
-            {
-                public void actionPerformed(ActionEvent event)
-                {
+            fileMenu.add(new AbstractAction("Save") {
+                public void actionPerformed(ActionEvent event) {
                     chooser.showSaveDialog(frame);
                     try {
                         logic.getBefore().printBoardToFile(chooser.getSelectedFile().getPath());
@@ -378,10 +386,8 @@ public class Gui {
                 }
             });
             fileMenu.addSeparator();
-            fileMenu.add(new AbstractAction("Close")
-            {
-                public void actionPerformed(ActionEvent event)
-                {
+            fileMenu.add(new AbstractAction("Close") {
+                public void actionPerformed(ActionEvent event) {
                     System.exit(0);
                 }
             });
@@ -389,44 +395,35 @@ public class Gui {
             JMenu editMenu = new JMenu("Toolbars");
             scaleCheckBoxMenu = new JCheckBoxMenuItem("Scale set");
             scaleCheckBoxMenu.setSelected(true);
-            scaleLabel.setText(""+scale);
-            scaleCheckBoxMenu.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent event)
-                {
+            scaleLabel.setText("" + scale);
+            scaleCheckBoxMenu.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
                     if (scaleCheckBoxMenu.isSelected()) {
                         scalesetpanel.setVisible(true);
                         frame.pack();
-                    }
-                    else {
+                    } else {
                         scalesetpanel.setVisible(false);
                         frame.pack();
                     }
                 }
             });
             editMenu.add(scaleCheckBoxMenu);
-            editMenu.add(new AbstractAction("Run")
-            {
-                public void actionPerformed(ActionEvent event)
-                {
-                   controlpanel.setVisible(true);
-                   drawtoolspanel.setVisible(false);
-                   frame.pack();
+            editMenu.add(new AbstractAction("Run") {
+                public void actionPerformed(ActionEvent event) {
+                    controlpanel.setVisible(true);
+                    drawtoolspanel.setVisible(false);
+                    frame.pack();
                 }
             });
-            editMenu.add(new AbstractAction("Draw")
-            {
-                public void actionPerformed(ActionEvent event)
-                {
+            editMenu.add(new AbstractAction("Draw") {
+                public void actionPerformed(ActionEvent event) {
                     drawtoolspanel.setVisible(true);
                     controlpanel.setVisible(false);
                     frame.pack();
                 }
             });
-            editMenu.add(new AbstractAction("Booth")
-            {
-                public void actionPerformed(ActionEvent event)
-                {
+            editMenu.add(new AbstractAction("Booth") {
+                public void actionPerformed(ActionEvent event) {
                     drawtoolspanel.setVisible(true);
                     controlpanel.setVisible(true);
                     frame.pack();
@@ -434,15 +431,6 @@ public class Gui {
             });
             menuBar.add(editMenu);
 
-
-            frame.add(mainpanel);
-            frame.setJMenuBar(menuBar);
-            frame.setTitle("Wirewold");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setResizable(false);
-            frame.setLocationByPlatform(true);
-            frame.setVisible(true);
-            frame.pack();
 
             runButton.addActionListener(new ActionListener() {
                 @Override
@@ -459,7 +447,7 @@ public class Gui {
                 public void actionPerformed(ActionEvent e) {
                     startflag = true;
                     run = true;
-                    gennum=1;
+                    gennum = 1;
                 }
             });
 
@@ -474,11 +462,52 @@ public class Gui {
                 @Override
                 public void stateChanged(ChangeEvent e) {
                     scale = scaleslider1.getValue();
-                    scaleLabel.setText(""+scale);
+                    scaleLabel.setText("" + scale);
                     drawboard.setScale(scale);
                     drawboard.revalidate();
                     drawboard.repaint();
                     frame.pack();
+                }
+            });
+
+            componentslist1.addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if (e.getValueIsAdjusting() == false) {
+
+                        if (componentslist1.getSelectedIndex() == 1) {
+                            statusLabel.setText("Draw: Diode");
+                        }
+                    }
+                }
+            });
+
+            conductorButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    drawcell = ColorState.CONDUCTOR;
+                    statusLabel.setText("Draw: CONDUCTOR");
+                }
+            });
+            electronHeadButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    drawcell = ColorState.ELEHEAD;
+                    statusLabel.setText("Draw: ELEHEAD");
+                }
+            });
+            electronTailButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    drawcell = ColorState.ELETAIL;
+                    statusLabel.setText("Draw: ELETAIL");
+                }
+            });
+            emptyButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    drawcell = ColorState.EMPTY;
+                    statusLabel.setText("Draw: EMPTY");
                 }
             });
 
@@ -488,29 +517,74 @@ public class Gui {
                     super.mousePressed(e);
                     int x_size = logic.getBefore().getX_size();
                     int y_size = logic.getBefore().getY_size();
-                    int x = e.getX()-2;
-                    int y = e.getY()-2;
-                    int x_cell = x/scale;
+                    int x = e.getX() - 2;
+                    int y = e.getY() - 2;
+                    int x_cell = x / scale;
                     if (x_cell >= x_size)
-                       x_cell = x_size-1;
+                        x_cell = x_size - 1;
                     if (x_cell < 0)
                         x_cell = 0;
-                    int y_cell = y/scale;
+                    int y_cell = y / scale;
                     if (y_cell >= y_size)
-                        y_cell = y_size-1;
+                        y_cell = y_size - 1;
                     if (y_cell < 0)
                         y_cell = 0;
-                    infoLabel.setText("MC: X:" + x +" Y:"+ y);
-                    statusLabel.setText("MC: X:" + x_cell +" Y:"+ y_cell);
-                    if (drawcell==ColorState.CONDUCTOR)
-                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.CONDUCTOR);
-                    else if (drawcell==ColorState.ELEHEAD)
-                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.ELEHEAD);
-                    else if (drawcell==ColorState.ELETAIL)
-                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.ELETAIL);
-                    else
-                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.EMPTY);
-                    //logic.getBefore().printBorderBoardToConsole();
+
+                    statusLabel.setText("MC: X:" + x_cell + " Y:" + y_cell);
+
+                    WireComponent element = null;
+                    int index = componentslist1.getSelectedIndex();
+
+                    if (index != 0) {
+                        if (index == 1) {
+                            element = new Diode();
+                            statusLabel.setText("Draw: Diode");
+                        } else if (index == 2) {
+                            element = new DiodeRev();
+                            statusLabel.setText("Draw: DiodeRev");
+                        } else if (index == 3) {
+                            element = new AndGate();
+                            statusLabel.setText("Draw: ANDGate");
+                        } else if (index == 4) {
+                            element = new OrGate();
+                            statusLabel.setText("Draw: ORGate");
+                        } else {
+                            ;
+                        }
+                        componentslist1.setSelectedIndex(0);
+                        x_cell -= element.getX_handler();
+                        y_cell -= element.getY_handler();
+                        boolean okflag = true;
+                        for (int i = 0; i < element.getX_size(); i++) {
+                            for (int j = 0; j < element.getY_size(); j++) {
+                                if (i + x_cell >= 0 && i + x_cell <= x_size - 1) {
+                                    if (j + y_cell >= 0 && j + y_cell <= y_size - 1) {
+                                        logic.getBefore().setBoardCellState(i + x_cell, j + y_cell, element.getState(i, j));
+                                        logic.getBefore().printBorderBoardToConsole();
+                                    } else {
+                                        statusLabel.setText("<html>Element too big!<br>Y off border</html>");
+                                        okflag = false;
+                                    }
+
+                                } else {
+                                    statusLabel.setText("<html>Element too big!<br>X off border</html>");
+                                    okflag = false;
+                                }
+                            }
+                        }
+                        if (okflag) {
+                            statusLabel.setText("<html>Element draw<br>successfully</html>");
+                        }
+                    } else {
+                        if (drawcell == ColorState.CONDUCTOR)
+                            logic.getBefore().setBoardCellState(x_cell, y_cell, Cell.State.CONDUCTOR);
+                        else if (drawcell == ColorState.ELEHEAD)
+                            logic.getBefore().setBoardCellState(x_cell, y_cell, Cell.State.ELEHEAD);
+                        else if (drawcell == ColorState.ELETAIL)
+                            logic.getBefore().setBoardCellState(x_cell, y_cell, Cell.State.ELETAIL);
+                        else
+                            logic.getBefore().setBoardCellState(x_cell, y_cell, Cell.State.EMPTY);
+                    }
                     drawboard.setActual(logic.getBefore());
                     drawboard.repaint();
                     frame.pack();
@@ -523,28 +597,29 @@ public class Gui {
                     super.mouseDragged(e);
                     int x_size = logic.getBefore().getX_size();
                     int y_size = logic.getBefore().getY_size();
-                    int x = e.getX()-2;
-                    int y = e.getY()-2;
-                    int x_cell = x/scale;
+                    int x = e.getX() - 2;
+                    int y = e.getY() - 2;
+                    int x_cell = x / scale;
                     if (x_cell >= x_size)
-                        x_cell = x_size-1;
+                        x_cell = x_size - 1;
                     if (x_cell < 0)
                         x_cell = 0;
-                    int y_cell = y/scale;
+                    int y_cell = y / scale;
                     if (y_cell >= y_size)
-                        y_cell = y_size-1;
+                        y_cell = y_size - 1;
                     if (y_cell < 0)
                         y_cell = 0;
-                    infoLabel.setText("MD: X:" + x +" Y:"+ y);
-                    statusLabel.setText("MD: X:" + x_cell +" Y:"+ y_cell);
-                    if (drawcell==ColorState.CONDUCTOR)
-                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.CONDUCTOR);
-                    else if (drawcell==ColorState.ELEHEAD)
-                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.ELEHEAD);
-                    else if (drawcell==ColorState.ELETAIL)
-                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.ELETAIL);
+                    infoLabel.setText("MD: X:" + x + " Y:" + y);
+                    statusLabel.setText("MD: X:" + x_cell + " Y:" + y_cell);
+
+                    if (drawcell == ColorState.CONDUCTOR)
+                        logic.getBefore().setBoardCellState(x_cell, y_cell, Cell.State.CONDUCTOR);
+                    else if (drawcell == ColorState.ELEHEAD)
+                        logic.getBefore().setBoardCellState(x_cell, y_cell, Cell.State.ELEHEAD);
+                    else if (drawcell == ColorState.ELETAIL)
+                        logic.getBefore().setBoardCellState(x_cell, y_cell, Cell.State.ELETAIL);
                     else
-                        logic.getBefore().setBoardCellState(x_cell,y_cell, Cell.State.EMPTY);
+                        logic.getBefore().setBoardCellState(x_cell, y_cell, Cell.State.EMPTY);
                     //logic.getBefore().printBorderBoardToConsole();
                     drawboard.setActual(logic.getBefore());
                     drawboard.repaint();
@@ -552,35 +627,19 @@ public class Gui {
                 }
             });
 
-            conductorButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    drawcell =  ColorState.CONDUCTOR;
-                    statusLabel.setText("Draw: CONDUCTOR");
-                }
-            });
-            electronHeadButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    drawcell =  ColorState.ELEHEAD;
-                    statusLabel.setText("Draw: ELEHEAD");
-                }
-            });
-            electronTailButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    drawcell =  ColorState.ELETAIL;
-                    statusLabel.setText("Draw: ELETAIL");
-                }
-            });
-            emptyButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    drawcell =  ColorState.EMPTY;
-                    statusLabel.setText("Draw: EMPTY");
-                }
-            });
+            delayTextField1.setText("100");
+            generationsTextField1.setText("50");
+
+            frame.add(mainpanel);
+            frame.setJMenuBar(menuBar);
+            frame.setTitle("Wirewold");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setResizable(false);
+            frame.setLocationByPlatform(true);
+            frame.setVisible(true);
+            frame.pack();
         });
+
 
         while (true) {
             while (true) {
@@ -590,7 +649,7 @@ public class Gui {
                     break;
                 }
             }
-            for (int i = 1; (i <= gennum) && run ; i++) {
+            for (int i = 1; (i <= gennum) && run; i++) {
                 logic.tick();
                 drawboard.setActual(logic.getBefore());
                 drawboard.revalidate();
