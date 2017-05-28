@@ -135,8 +135,8 @@ public class Gui {
             gbc.anchor = GridBagConstraints.WEST;
             controlpanel.add(label3, gbc);
             infoLabel = new JLabel();
-            infoLabel.setHorizontalAlignment(0);
-            infoLabel.setHorizontalTextPosition(0);
+            infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            infoLabel.setHorizontalTextPosition(SwingConstants.CENTER);
             infoLabel.setText(" ");
             gbc = new GridBagConstraints();
             gbc.gridx = 0;
@@ -435,10 +435,35 @@ public class Gui {
             runButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    gennum = Integer.parseInt(generationsTextField1.getText());
-                    delay = Integer.parseInt(delayTextField1.getText());
                     startflag = true;
                     run = true;
+                    try {
+                        gennum = Integer.parseInt(generationsTextField1.getText());
+                        if (gennum < 1) {
+                            infoLabel.setText("<html>Generations must<br>be bigger than 0</html>");
+                            startflag = false;
+                            run = false;
+                        }
+                    }
+                    catch (NumberFormatException e1) {
+                        infoLabel.setText("<html>Generations must<br>be a number</html>");
+                        startflag = false;
+                        run = false;
+                    }
+                    try {
+                        delay = Integer.parseInt(delayTextField1.getText());
+                        if (delay < 1) {
+                            infoLabel.setText("<html>Delay must<br>be bigger than 0</html>");
+                            startflag = false;
+                            run = false;
+                        }
+                    }
+                    catch (NumberFormatException e1) {
+                        infoLabel.setText("<html>Delay must<br>be a number</html>");
+                        startflag = false;
+                        run = false;
+                    }
+
                 }
             });
 
@@ -474,9 +499,17 @@ public class Gui {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
                     if (e.getValueIsAdjusting() == false) {
-
-                        if (componentslist1.getSelectedIndex() == 1) {
-                            statusLabel.setText("Draw: Diode");
+                        int index = componentslist1.getSelectedIndex();
+                        if (index != 0) {
+                            if (index == 1) {
+                                statusLabel.setText("Draw: Diode");
+                            } else if (index == 2) {
+                                statusLabel.setText("Draw: DiodeRev");
+                            } else if (index == 3) {
+                                statusLabel.setText("Draw: ANDGate");
+                            } else if (index == 4) {
+                                statusLabel.setText("Draw: ORGate");
+                            }
                         }
                     }
                 }
@@ -511,6 +544,8 @@ public class Gui {
                 }
             });
 
+            componentslist1.setSelectedIndex(0);
+
             drawpanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -530,26 +565,18 @@ public class Gui {
                     if (y_cell < 0)
                         y_cell = 0;
 
-                    statusLabel.setText("MC: X:" + x_cell + " Y:" + y_cell);
-
                     WireComponent element = null;
                     int index = componentslist1.getSelectedIndex();
 
                     if (index != 0) {
                         if (index == 1) {
                             element = new Diode();
-                            statusLabel.setText("Draw: Diode");
                         } else if (index == 2) {
                             element = new DiodeRev();
-                            statusLabel.setText("Draw: DiodeRev");
                         } else if (index == 3) {
                             element = new AndGate();
-                            statusLabel.setText("Draw: ANDGate");
                         } else if (index == 4) {
                             element = new OrGate();
-                            statusLabel.setText("Draw: ORGate");
-                        } else {
-                            ;
                         }
                         componentslist1.setSelectedIndex(0);
                         x_cell -= element.getX_handler();
@@ -560,7 +587,7 @@ public class Gui {
                                 if (i + x_cell >= 0 && i + x_cell <= x_size - 1) {
                                     if (j + y_cell >= 0 && j + y_cell <= y_size - 1) {
                                         logic.getBefore().setBoardCellState(i + x_cell, j + y_cell, element.getState(i, j));
-                                        logic.getBefore().printBorderBoardToConsole();
+                                        //logic.getBefore().printBorderBoardToConsole();
                                     } else {
                                         statusLabel.setText("<html>Element too big!<br>Y off border</html>");
                                         okflag = false;
@@ -609,8 +636,6 @@ public class Gui {
                         y_cell = y_size - 1;
                     if (y_cell < 0)
                         y_cell = 0;
-                    infoLabel.setText("MD: X:" + x + " Y:" + y);
-                    statusLabel.setText("MD: X:" + x_cell + " Y:" + y_cell);
 
                     if (drawcell == ColorState.CONDUCTOR)
                         logic.getBefore().setBoardCellState(x_cell, y_cell, Cell.State.CONDUCTOR);
