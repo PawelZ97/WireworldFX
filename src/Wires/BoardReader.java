@@ -7,6 +7,9 @@ import java.util.Scanner;
  * Created by zychp_w10 on 24.05.2017.
  */
 public class BoardReader {
+    /**
+     * Wczytuje planszę z pliku.
+     */
     private int x_size;
     private int y_size;
     private int x_size_max;
@@ -14,12 +17,23 @@ public class BoardReader {
     private File file;
 
     public BoardReader(int x_size_max, int y_size_max, File file) {
+        /**
+         * Tworzy nowy czytnik plansz.
+         * @param x_size_max Maksymalny akceptowalny wymiar X odczytywanej planszy.
+         * @param y_size_max Maksymalny akceptowalny wymiar Y odczytywanej planszy.
+         * @param file Plik z którego plansza ma być czytana.
+         */
         this.x_size_max = x_size_max;
         this.y_size_max = y_size_max;
         this.file = file;
     }
 
     public Board readBoardFromFile() throws Exception {
+        /**
+         * Właściwe czytanie planszy.
+         * Sprawdza poprawność formatu i maksymalne rozmiary.
+         * @return Przeczytana plansza.
+         */
         Scanner in = new Scanner(file);
         Cell[][] tmpboard = new Cell[x_size_max][y_size_max];
         int x_read;

@@ -16,6 +16,10 @@ import static java.lang.Thread.sleep;
  * Created by zychp_w10 on 22.05.2017.
  */
 public class Gui {
+    /**
+     * Główna klasa programu. Cały interfejs graficzny.
+     * Zawiera kod wygenerowany przez kreator GUI.
+     */
     private JPanel mainpanel;
     private JPanel controlpanel;
     private JPanel drawpanel;
@@ -47,27 +51,21 @@ public class Gui {
     private int delay;
 
     enum ColorState {EMPTY, ELEHEAD, ELETAIL, CONDUCTOR}
-
     ;
     private ColorState drawcell = ColorState.EMPTY;
 
 
     public Gui() throws Exception {
-        int def_x_size = 10;
-        int def_y_size = 10;
+        /**
+         * Tworzy Gui.
+         * Tutaj znajdują się wszelkie nasłuchwacze przycisków, myszki itd
+         * Tutaj znajduje
+         */
+        int def_x_size = 15;
+        int def_y_size = 15;
         scale = 40;
 
         Board bef = new Board(def_x_size, def_y_size);
-        bef.setBoardCellState(4, 4, Cell.State.ELEHEAD);
-        for (int i = 1; i < 9; i++)
-            bef.setBoardCellState(4, i, Cell.State.CONDUCTOR);
-        for (int i = 1; i < 9; i++)
-            bef.setBoardCellState(6, i, Cell.State.CONDUCTOR);
-        bef.setBoardCellState(5, 1, Cell.State.CONDUCTOR);
-        bef.setBoardCellState(5, 8, Cell.State.CONDUCTOR);
-        bef.setBoardCellState(4, 4, Cell.State.ELEHEAD);
-        bef.setBoardCellState(4, 3, Cell.State.ELETAIL);
-
         DrawBoard drawboard = new DrawBoard(def_x_size, def_y_size, scale);
         WireLogicEngine logic = new WireLogicEngine(bef);
 
@@ -422,7 +420,7 @@ public class Gui {
                     frame.pack();
                 }
             });
-            editMenu.add(new AbstractAction("Booth") {
+            editMenu.add(new AbstractAction("Both") {
                 public void actionPerformed(ActionEvent event) {
                     drawtoolspanel.setVisible(true);
                     controlpanel.setVisible(true);
@@ -664,7 +662,6 @@ public class Gui {
             frame.setVisible(true);
             frame.pack();
         });
-
 
         while (true) {
             while (true) {
