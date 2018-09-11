@@ -6,8 +6,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class WireController {
@@ -24,13 +22,6 @@ public class WireController {
     int i =0;
 
     @FXML private void initialize() throws Exception {
-        drawCanvas.setOnMouseClicked(this::boardMousePressedDragged);
-        drawCanvas.setOnMouseDragged(this::boardMousePressedDragged);
-    }
-
-    @FXML private void playButtonPressed() throws Exception {
-        generationLabel.setText(String.valueOf(i++));
-        setAutoBoardResizing(true);
         board  = new Board(10,10);
         int size = board.getX_size();
         for(int i = 0; i<size; i++){
@@ -39,28 +30,16 @@ public class WireController {
         for(int i = 0; i<size; i++){
             board.setBoardCellState(i,5, Cell.State.CONDUCTOR);
         }
-        printBoardFX = new PrintBoardFX(20,board,drawCanvas,drawingPane);
-        printBoardFX.draw();
+        printBoardFX = new PrintBoardFX(board,drawCanvas,drawingPane);
+        DrawBoardFX drawBoardFX = new DrawBoardFX(Cell.State.CONDUCTOR,board,printBoardFX);
+        drawCanvas.setOnMouseClicked(drawBoardFX::boardMousePressedDragged);
+        drawCanvas.setOnMouseDragged(drawBoardFX::boardMousePressedDragged);
     }
 
-
-    private void boardMousePressedDragged(MouseEvent event) {
-        int x_pos = printBoardFX.convertToPos(event.getX());
-        int y_pos = printBoardFX.convertToPos(event.getY());
-        if (printBoardFX.verifyPos(x_pos) && printBoardFX.verifyPos(y_pos)) {
-            try {
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    board.setBoardCellState(x_pos,y_pos, Cell.State.CONDUCTOR);
-                    printBoardFX.draw();
-                }
-                if (event.getButton() == MouseButton.SECONDARY) {
-                    board.setBoardCellState(x_pos,y_pos, Cell.State.EMPTY);
-                    printBoardFX.draw();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    @FXML private void playButtonPressed() throws Exception {
+        generationLabel.setText(String.valueOf(i++));
+        setAutoBoardResizing(true);
+        printBoardFX.draw();
     }
 
     private void setAutoBoardResizing(boolean value) {
@@ -72,7 +51,6 @@ public class WireController {
             drawingPane.heightProperty().removeListener(boardPaneSizeListener);
         }
     }
-
 
     private ChangeListener<Number> boardPaneSizeListener = (observable, oldValue, newValue) -> {
         try {

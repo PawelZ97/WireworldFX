@@ -9,17 +9,20 @@ import javafx.scene.shape.StrokeLineCap;
 
 public class PrintBoardFX {
     private int size;
-    private int scale;
+    private static int scale = 40;
     private Board board;
     private Canvas drawingCanvas;
     private AnchorPane drawingPane;
 
-    PrintBoardFX(int scale, Board board, Canvas drawingCanvas, AnchorPane drawingPane) {
-        this.scale = scale;
+    PrintBoardFX(Board board, Canvas drawingCanvas, AnchorPane drawingPane) {
         this.board = board;
         this.drawingCanvas = drawingCanvas;
         this.drawingPane = drawingPane;
         size = board.getX_size();
+    }
+
+    public static int getScale() {
+        return scale;
     }
 
     public void draw() throws Exception {
@@ -76,13 +79,5 @@ public class PrintBoardFX {
 
     private double snap(double y) {
         return ((int) y) + .5;
-    }
-
-    public boolean verifyPos(int pos) {
-        return (pos >= 0) && (pos < size);
-    }
-
-    public int convertToPos(double coord) {
-        return (int) coord / scale;
     }
 }
