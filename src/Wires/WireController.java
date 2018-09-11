@@ -16,8 +16,16 @@ public class WireController {
     @FXML private Canvas drawCanvas;
     @FXML private AnchorPane drawingPane;
     @FXML private Tab drawTab;
+    @FXML private Button conductorButton;
+    @FXML private Button eleheadButton;
+    @FXML private Button eletailButton;
+    @FXML private Button emptyButton;
+
+
+
 
     private PrintBoardFX printBoardFX;
+    private DrawBoardFX drawBoardFX;
     private Board board;
     int i =0;
 
@@ -31,7 +39,7 @@ public class WireController {
             board.setBoardCellState(i,5, Cell.State.CONDUCTOR);
         }
         printBoardFX = new PrintBoardFX(board,drawCanvas,drawingPane);
-        DrawBoardFX drawBoardFX = new DrawBoardFX(Cell.State.CONDUCTOR,board,printBoardFX);
+        drawBoardFX = new DrawBoardFX(Cell.State.CONDUCTOR,board,printBoardFX);
         drawCanvas.setOnMouseClicked(drawBoardFX::boardMousePressedDragged);
         drawCanvas.setOnMouseDragged(drawBoardFX::boardMousePressedDragged);
     }
@@ -41,6 +49,12 @@ public class WireController {
         setAutoBoardResizing(true);
         printBoardFX.draw();
     }
+
+    @FXML private void conductorButtonPressed()  { drawBoardFX.setActualState(Cell.State.CONDUCTOR); }
+    @FXML private void eleheadButtonPressed()  { drawBoardFX.setActualState(Cell.State.ELEHEAD); }
+    @FXML private void eletailButtonPressed()  { drawBoardFX.setActualState(Cell.State.ELETAIL); }
+    @FXML private void emptyButtonPressed()  { drawBoardFX.setActualState(Cell.State.EMPTY); }
+
 
     private void setAutoBoardResizing(boolean value) {
         if (value) {

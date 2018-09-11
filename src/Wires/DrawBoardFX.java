@@ -14,13 +14,17 @@ public class DrawBoardFX {
         this.printBoardFX = printBoardFX;
     }
 
+    public void setActualState(Cell.State actualState) {
+        this.actualState = actualState;
+    }
+
     public void boardMousePressedDragged(MouseEvent event) {
         int x_pos = convertToPos(event.getX());
         int y_pos = convertToPos(event.getY());
         if (verifyPos(x_pos, y_pos)) {
             try {
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    board.setBoardCellState(x_pos,y_pos, Cell.State.CONDUCTOR);
+                    board.setBoardCellState(x_pos,y_pos, actualState);
                     printBoardFX.draw();
                 }
                 if (event.getButton() == MouseButton.SECONDARY) {

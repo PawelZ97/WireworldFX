@@ -61,6 +61,10 @@
                               <AnchorPane>
                                  <children>
                                 <AnchorPane />
+                                    <Button fx:id="conductorButton" layoutX="74.0" layoutY="23.0" mnemonicParsing="false" onAction="#conductorButtonPressed" text="Conductor" />
+                                    <Button fx:id="eleheadButton" layoutX="74.0" layoutY="68.0" mnemonicParsing="false" onAction="#eleheadButtonPressed" text="Electron Head" />
+                                    <Button fx:id="eletailButton" layoutX="74.0" layoutY="111.0" mnemonicParsing="false" onAction="#eletailButtonPressed" text="Electron Tail" />
+                                    <Button fx:id="emptyButton" layoutX="74.0" layoutY="155.0" mnemonicParsing="false" onAction="#emptyButtonPressed" text="Empty" />
                                  </children>
                               </AnchorPane>
                         </content>
