@@ -4,12 +4,18 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -53,7 +59,15 @@
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <rotationAxis>
                                     <Point3D />
-                                 </rotationAxis></AnchorPane>
+                                 </rotationAxis>
+                                 <children>
+                                    <Slider layoutX="38.0" layoutY="51.0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
+                                    <Slider layoutX="124.0" layoutY="51.0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
+                                    <Label layoutX="31.0" layoutY="21.0" text="Speed" />
+                                    <Label layoutX="112.0" layoutY="21.0" text="Duration" />
+                                    <TextField layoutX="24.0" layoutY="202.0" prefHeight="25.0" prefWidth="48.0" />
+                                    <TextField layoutX="112.0" layoutY="202.0" prefHeight="25.0" prefWidth="48.0" />
+                                 </children></AnchorPane>
                         </content>
                       </Tab>
                       <Tab fx:id="drawTab" text="Draw">
@@ -61,17 +75,66 @@
                               <AnchorPane>
                                  <children>
                                 <AnchorPane />
-                                    <Button fx:id="conductorButton" layoutX="74.0" layoutY="23.0" mnemonicParsing="false" onAction="#conductorButtonPressed" text="Conductor" />
-                                    <Button fx:id="eleheadButton" layoutX="74.0" layoutY="68.0" mnemonicParsing="false" onAction="#eleheadButtonPressed" text="Electron Head" />
-                                    <Button fx:id="eletailButton" layoutX="74.0" layoutY="111.0" mnemonicParsing="false" onAction="#eletailButtonPressed" text="Electron Tail" />
-                                    <Button fx:id="emptyButton" layoutX="74.0" layoutY="155.0" mnemonicParsing="false" onAction="#emptyButtonPressed" text="Empty" />
+                                    <Button fx:id="conductorButton" layoutX="30.0" layoutY="23.0" mnemonicParsing="false" onAction="#conductorButtonPressed" text="Conductor" textFill="#8a7000" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+                                       <font>
+                                          <Font name="System Bold Italic" size="13.0" />
+                                       </font>
+                                       <effect>
+                                          <Lighting>
+                                             <bumpInput>
+                                                <Shadow height="38.67" radius="22.509999999999998" width="53.37" />
+                                             </bumpInput>
+                                             <light>
+                                                <Light.Distant color="#fffb00" elevation="120.35" />
+                                             </light>
+                                          </Lighting>
+                                       </effect>
+                                    </Button>
+                                    <Button fx:id="eleheadButton" layoutX="30.0" layoutY="66.0" mnemonicParsing="false" onAction="#eleheadButtonPressed" text="Electron Head" textFill="#8f0000" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="70.0">
+                                       <font>
+                                          <Font name="System Bold Italic" size="13.0" />
+                                       </font>
+                                       <effect>
+                                          <Lighting>
+                                             <bumpInput>
+                                                <Shadow />
+                                             </bumpInput>
+                                             <light>
+                                                <Light.Distant color="RED" elevation="116.16" />
+                                             </light>
+                                          </Lighting>
+                                       </effect>
+                                    </Button>
+                                    <Button fx:id="eletailButton" layoutX="30.0" layoutY="113.0" mnemonicParsing="false" onAction="#eletailButtonPressed" text="Electron Tail" textFill="#0050e4" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="110.0">
+                                       <font>
+                                          <Font name="System Bold Italic" size="13.0" />
+                                       </font>
+                                       <effect>
+                                          <Lighting>
+                                             <bumpInput>
+                                                <Shadow />
+                                             </bumpInput>
+                                             <light>
+                                                <Light.Distant color="#0060ff" elevation="124.54" />
+                                             </light>
+                                          </Lighting>
+                                       </effect>
+                                    </Button>
+                                    <Button fx:id="emptyButton" layoutX="74.0" layoutY="159.0" mnemonicParsing="false" onAction="#emptyButtonPressed" text="Empty" textFill="#5e5e5e" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="150.0">
+                                       <font>
+                                          <Font name="System Bold Italic" size="13.0" />
+                                       </font>
+                                    </Button>
                                  </children>
                               </AnchorPane>
                         </content>
                       </Tab>
                         <Tab text="Insert">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView editable="true" layoutX="18.0" layoutY="34.0" prefHeight="202.0" prefWidth="170.0" />
+                                 </children></AnchorPane>
                           </content>
                         </Tab>
                     </tabs>
@@ -88,18 +151,48 @@
                                  </stops>
                               </LinearGradient>
                            </fill></Rectangle>
-                        <Button fx:id="playButton" layoutX="100.0" layoutY="14.0" mnemonicParsing="false" onAction="#playButtonPressed" text="Play" textFill="#00ff0d" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
+                        <Button fx:id="playButton" layoutX="100.0" layoutY="14.0" mnemonicParsing="false" onAction="#playButtonPressed" text="Play" textFill="#008d07" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
                            <font>
                               <Font name="System Bold" size="12.0" />
-                           </font></Button>
-                        <Button fx:id="stepButton" layoutX="100.0" layoutY="38.0" mnemonicParsing="false" prefWidth="90.0" text="Step" textFill="#ffb400" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
+                           </font>
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant azimuth="190.0" color="#1fff00" />
+                                 </light>
+                              </Lighting>
+                           </effect></Button>
+                        <Button fx:id="stepButton" layoutX="100.0" layoutY="38.0" mnemonicParsing="false" prefWidth="90.0" text="Step" textFill="#976a00" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
-                           </font></Button>
-                        <Button fx:id="stopButton" layoutX="100.0" layoutY="63.0" mnemonicParsing="false" prefWidth="90.0" text="Stop" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
+                           </font>
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant azimuth="190.0" color="#ffea00" />
+                                 </light>
+                              </Lighting>
+                           </effect></Button>
+                        <Button fx:id="stopButton" layoutX="100.0" layoutY="63.0" mnemonicParsing="false" prefWidth="90.0" text="Stop" textFill="#6f0000" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
-                           </font></Button>
+                           </font>
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant azimuth="190.0" color="RED" elevation="57.56" />
+                                 </light>
+                              </Lighting>
+                           </effect></Button>
                         <Label fx:id="generationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="16.0" prefHeight="36.0" prefWidth="90.0" text="COUNT" textAlignment="CENTER" textFill="#b50e0e" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="16.0">
                            <font>
                               <Font name="System Bold" size="18.0" />
