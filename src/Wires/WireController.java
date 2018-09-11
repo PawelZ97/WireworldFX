@@ -1,5 +1,6 @@
 package Wires;
 
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -14,9 +15,11 @@ public class WireController {
     @FXML private Canvas drawCanvas;
     @FXML private AnchorPane drawingPane;
 
-    int i = 0;
+    DrawBoardFX drawBoardFX;
+    int i =0;
 
-    @FXML private void playButtonPressed() throws Exception {
+    @FXML private void initialize() throws Exception {
+        setAutoBoardResizing(true);
         Board board = new Board(10,10);
         int size = board.getX_size();
         for(int i = 0; i<size; i++){
@@ -25,10 +28,30 @@ public class WireController {
         for(int i = 0; i<size; i++){
             board.setBoardCellState(i,5, Cell.State.CONDUCTOR);
         }
-        DrawBoardFX drawBoardFX = new DrawBoardFX(20,board,drawCanvas,drawingPane);
+        drawBoardFX = new DrawBoardFX(20,board,drawCanvas,drawingPane);
         drawBoardFX.draw();
+    }
+
+    @FXML private void playButtonPressed() {
         generationLabel.setText(String.valueOf(i++));
     }
+
+    private void setAutoBoardResizing(boolean value) {
+        if (value) {
+            drawingPane.widthProperty().addListener(boardPaneSizeListener);
+            drawingPane.heightProperty().addListener(boardPaneSizeListener);
+        } else {
+            drawingPane.widthProperty().removeListener(boardPaneSizeListener);
+            drawingPane.heightProperty().removeListener(boardPaneSizeListener);
+        }
+    }
+
+    private ChangeListener<Number> boardPaneSizeListener = (observable, oldValue, newValue) -> {
+        try {
+            drawBoardFX.draw();
+        } catch (Exception e) {
+        }
+    };
 
 }
 

@@ -8,7 +8,7 @@ public class Cell {
      * Klasa Cell pozwala tworzyć komórki przechowujące jeden z 4 dostępnych stanów.
      * Empty, Elehead, Eletail, Conductor
      */
-    enum State {EMPTY, ELEHEAD, ELETAIL, CONDUCTOR};
+    public enum State {EMPTY, ELEHEAD, ELETAIL, CONDUCTOR};
     private State state;
 
     public Cell(State state) {

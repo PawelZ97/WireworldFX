@@ -1,4 +1,6 @@
-package Wires;
+package Wires.Elements;
+
+import Wires.Cell;
 
 /**
  * Created by zychp_w10 on 27.05.2017.
