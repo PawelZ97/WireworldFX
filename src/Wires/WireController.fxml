@@ -11,7 +11,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
@@ -38,20 +37,15 @@
           </Menu>
         </menus>
       </MenuBar>
-      <HBox layoutY="25.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <AnchorPane prefHeight="400.0" prefWidth="553.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
-            <AnchorPane maxHeight="1.7976931348623157E308" prefWidth="200.0">
+            <AnchorPane fx:id="drawingPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Rectangle height="300.0" smooth="false" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0">
-                     <fill>
-                        <LinearGradient endX="0.3047619047619048" endY="1.0" startX="0.08571428571428574">
-                           <stops>
-                              <Stop color="#bfbebe" />
-                              <Stop color="#bfbebe" offset="0.007662835249042145" />
-                              <Stop color="#aeaeae" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </fill></Rectangle>
+                  <Canvas fx:id="drawCanvas" height="400.0" width="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane maxHeight="1.7976931348623157E308" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
                   <TabPane prefHeight="300.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
                       <Tab text="Sim">
@@ -90,19 +84,19 @@
                                  </stops>
                               </LinearGradient>
                            </fill></Rectangle>
-                        <Button layoutX="100.0" layoutY="14.0" mnemonicParsing="false" text="Play" textFill="#00ff0d" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
+                        <Button fx:id="playButton" layoutX="100.0" layoutY="14.0" mnemonicParsing="false" onAction="#playButtonPressed" text="Play" textFill="#00ff0d" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font></Button>
-                        <Button layoutX="100.0" layoutY="38.0" mnemonicParsing="false" prefWidth="90.0" text="Step" textFill="#ffb400" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
+                        <Button fx:id="stepButton" layoutX="100.0" layoutY="38.0" mnemonicParsing="false" prefWidth="90.0" text="Step" textFill="#ffb400" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font></Button>
-                        <Button layoutX="100.0" layoutY="63.0" mnemonicParsing="false" prefWidth="90.0" text="Stop" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
+                        <Button fx:id="stopButton" layoutX="100.0" layoutY="63.0" mnemonicParsing="false" prefWidth="90.0" text="Stop" textFill="RED" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font></Button>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="16.0" prefHeight="36.0" prefWidth="90.0" text="COUNT" textAlignment="CENTER" textFill="#b50e0e" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="16.0">
+                        <Label fx:id="generationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="16.0" prefHeight="36.0" prefWidth="90.0" text="COUNT" textAlignment="CENTER" textFill="#b50e0e" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="16.0">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -113,16 +107,8 @@
                      </children>
                   </AnchorPane>
                </children>
-               <rotationAxis>
-                  <Point3D />
-               </rotationAxis>
-            </AnchorPane>
-            <AnchorPane prefHeight="400.0" prefWidth="400.0">
-               <children>
-                  <Canvas height="400.0" width="400.0" />
-               </children>
             </AnchorPane>
          </children>
-      </HBox>
+      </AnchorPane>
    </children>
 </AnchorPane>
