@@ -7,14 +7,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 
-public class DrawBoardFX {
+public class PrintBoardFX {
     private int size;
     private int scale;
     private Board board;
     private Canvas drawingCanvas;
     private AnchorPane drawingPane;
 
-    public DrawBoardFX(int scale, Board board, Canvas drawingCanvas, AnchorPane drawingPane) {
+    PrintBoardFX(int scale, Board board, Canvas drawingCanvas, AnchorPane drawingPane) {
         this.scale = scale;
         this.board = board;
         this.drawingCanvas = drawingCanvas;
@@ -76,5 +76,13 @@ public class DrawBoardFX {
 
     private double snap(double y) {
         return ((int) y) + .5;
+    }
+
+    public boolean verifyPos(int pos) {
+        return (pos >= 0) && (pos < size);
+    }
+
+    public int convertToPos(double coord) {
+        return (int) coord / scale;
     }
 }

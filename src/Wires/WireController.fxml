@@ -56,7 +56,7 @@
                                  </rotationAxis></AnchorPane>
                         </content>
                       </Tab>
-                      <Tab text="Draw">
+                      <Tab fx:id="drawTab" text="Draw">
                         <content>
                               <AnchorPane>
                                  <children>
