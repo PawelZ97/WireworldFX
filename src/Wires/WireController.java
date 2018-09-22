@@ -48,12 +48,13 @@ public class WireController {
     }
 
     @FXML private void playButtonPressed() {
+        logic.setCounter(0); //TODO Reset Button
         timeline = new Timeline(new KeyFrame(
                 Duration.millis(1000),
                 ae -> {
                     try {
-                        //generationLabel.setText(Integer.toString(i++));
                         logic.tick();
+                        generationLabel.setText(Integer.toString(logic.getCounter()));
                         printBoardFX.draw();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -65,6 +66,8 @@ public class WireController {
 
     @FXML private void stepButtonPressed() throws Exception {
         logic.tick();
+        logic.setCounter(0);
+        generationLabel.setText("1");
         printBoardFX.draw();
     }
 
