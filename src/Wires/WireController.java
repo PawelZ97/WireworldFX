@@ -1,5 +1,8 @@
 package Wires;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -7,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 public class WireController {
     @FXML private Button playButton;
@@ -23,20 +27,18 @@ public class WireController {
     @FXML private Button clearAllButton;
 
 
-
-
     private PrintBoardFX printBoardFX;
     private DrawBoardFX drawBoardFX;
-    private Board board;
-    int i =0;
+    private Board board = new Board();
+    private WireLogicEngine logic = new WireLogicEngine(board);
+    private Timeline timeline;
+
 
     @FXML private void initialize() throws Exception {
-        board  = new Board(10,10);
-        int size = board.getX_size();
-        for(int i = 0; i<size; i++){
+        for(int i = 0; i<board.getY_size(); i++){
             board.setBoardCellState(5,i, Cell.State.CONDUCTOR);
         }
-        for(int i = 0; i<size; i++){
+        for(int i = 0; i<board.getX_size(); i++){
             board.setBoardCellState(i,5, Cell.State.CONDUCTOR);
         }
         printBoardFX = new PrintBoardFX(board,drawCanvas,drawingPane);
@@ -45,10 +47,29 @@ public class WireController {
         drawCanvas.setOnMouseDragged(drawBoardFX::boardMousePressedDragged);
     }
 
-    @FXML private void playButtonPressed() throws Exception {
-        generationLabel.setText(String.valueOf(i++));
-        setAutoBoardResizing(true);
+    @FXML private void playButtonPressed() {
+        timeline = new Timeline(new KeyFrame(
+                Duration.millis(1000),
+                ae -> {
+                    try {
+                        //generationLabel.setText(Integer.toString(i++));
+                        logic.tick();
+                        printBoardFX.draw();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    @FXML private void stepButtonPressed() throws Exception {
+        logic.tick();
         printBoardFX.draw();
+    }
+
+    @FXML private void stopButtonPressed() {
+        timeline.stop();
     }
 
     @FXML private void conductorButtonPressed()  { drawBoardFX.setActualState(Cell.State.CONDUCTOR); }

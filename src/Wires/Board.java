@@ -10,9 +10,18 @@ public class Board {
     /**
      * Klasa Board pozwala tworzyć plansze automatu komórkowego.
      */
-    private int x_size;
-    private int y_size;
+    private int x_size = 15;
+    private int y_size = 15;
     private Cell[][] board;
+
+    public Board(){
+        board = new Cell[x_size+2][y_size+2];
+        for (int i = 0; i < x_size + 2; i++) {
+            for (int j = 0; j < y_size + 2; j++) {
+                board[i][j] = new Cell(Cell.State.EMPTY);
+            }
+        }
+    }
 
     public Board(int x_size, int y_size) {
         /**

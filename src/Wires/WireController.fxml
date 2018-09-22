@@ -166,7 +166,7 @@
                                  </light>
                               </Lighting>
                            </effect></Button>
-                        <Button fx:id="stepButton" layoutX="100.0" layoutY="38.0" mnemonicParsing="false" prefWidth="90.0" text="Step" textFill="#976a00" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
+                        <Button fx:id="stepButton" layoutX="100.0" layoutY="38.0" mnemonicParsing="false" onAction="#stepButtonPressed" prefWidth="90.0" text="Step" textFill="#976a00" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font>
@@ -180,7 +180,7 @@
                                  </light>
                               </Lighting>
                            </effect></Button>
-                        <Button fx:id="stopButton" layoutX="100.0" layoutY="63.0" mnemonicParsing="false" prefWidth="90.0" text="Stop" textFill="#6f0000" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
+                        <Button fx:id="stopButton" layoutX="100.0" layoutY="63.0" mnemonicParsing="false" onAction="#stopButtonPressed" prefWidth="90.0" text="Stop" textFill="#6f0000" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font>
