@@ -31,6 +31,14 @@ public class Board {
         }
     }
 
+    public void setAllBoard(Cell.State state) {
+        for (int i=0; i<x_size; i++) {
+            for (int j=0; j<y_size; j++) {
+                setBoardCellState(i,j,state);
+            }
+        }
+    }
+
     public void setBoardCellState(int x, int y, Cell.State state) {
         /**
          * Ustawia stan danej komórki w planszy.

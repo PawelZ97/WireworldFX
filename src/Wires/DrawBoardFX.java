@@ -18,21 +18,22 @@ public class DrawBoardFX {
         this.actualState = actualState;
     }
 
+    public void clearAllBoard() {
+        board.setAllBoard(Cell.State.EMPTY);
+        printBoardFX.draw();
+    }
+
     public void boardMousePressedDragged(MouseEvent event) {
         int x_pos = convertToPos(event.getX());
         int y_pos = convertToPos(event.getY());
         if (verifyPos(x_pos, y_pos)) {
-            try {
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    board.setBoardCellState(x_pos,y_pos, actualState);
-                    printBoardFX.draw();
-                }
-                if (event.getButton() == MouseButton.SECONDARY) {
-                    board.setBoardCellState(x_pos,y_pos, Cell.State.EMPTY);
-                    printBoardFX.draw();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (event.getButton() == MouseButton.PRIMARY) {
+                board.setBoardCellState(x_pos,y_pos, actualState);
+                printBoardFX.draw();
+            }
+            if (event.getButton() == MouseButton.SECONDARY) {
+                board.setBoardCellState(x_pos,y_pos, Cell.State.EMPTY);
+                printBoardFX.draw();
             }
         }
     }

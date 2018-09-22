@@ -25,7 +25,7 @@ public class PrintBoardFX {
         return scale;
     }
 
-    public void draw() throws Exception {
+    public void draw() {
         calculateMaxScale();
         clearBoard();
         drawCells();
@@ -64,7 +64,7 @@ public class PrintBoardFX {
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
     }
 
-    private void calculateMaxScale() throws Exception {
+    private void calculateMaxScale() {
         drawingCanvas.setHeight(drawingPane.getHeight());
         drawingCanvas.setWidth(drawingPane.getWidth());
         double width = drawingPane.getWidth();
@@ -74,7 +74,7 @@ public class PrintBoardFX {
         } else {
             scale = (int) width / (size);
         }
-        if (scale < 1) throw new Exception("Window too small to draw");
+        if (scale < 1) System.out.println("Window too small to draw");
     }
 
     private double snap(double y) {

@@ -20,6 +20,7 @@ public class WireController {
     @FXML private Button eleheadButton;
     @FXML private Button eletailButton;
     @FXML private Button emptyButton;
+    @FXML private Button clearAllButton;
 
 
 
@@ -54,6 +55,7 @@ public class WireController {
     @FXML private void eleheadButtonPressed()  { drawBoardFX.setActualState(Cell.State.ELEHEAD); }
     @FXML private void eletailButtonPressed()  { drawBoardFX.setActualState(Cell.State.ELETAIL); }
     @FXML private void emptyButtonPressed()  { drawBoardFX.setActualState(Cell.State.EMPTY); }
+    @FXML private void clearAllButtonPressed() { drawBoardFX.clearAllBoard(); }
 
 
     private void setAutoBoardResizing(boolean value) {
