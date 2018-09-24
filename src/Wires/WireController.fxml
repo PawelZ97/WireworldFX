@@ -61,11 +61,11 @@
                                     <Point3D />
                                  </rotationAxis>
                                  <children>
-                                    <Slider layoutX="38.0" layoutY="51.0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
+                                    <Slider fx:id="speedSlider" blockIncrement="1.0" layoutX="33.0" layoutY="51.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" onMouseReleased="#speedSliderMouseRelased" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" />
                                     <Slider layoutX="124.0" layoutY="51.0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Label layoutX="31.0" layoutY="21.0" text="Speed" />
+                                    <Label layoutX="20.0" layoutY="21.0" text="Speed[ms]" />
                                     <Label layoutX="112.0" layoutY="21.0" text="Duration" />
-                                    <TextField layoutX="24.0" layoutY="202.0" prefHeight="25.0" prefWidth="48.0" />
+                                    <TextField fx:id="speedTextField" layoutX="24.0" layoutY="202.0" prefHeight="25.0" prefWidth="48.0" />
                                     <TextField layoutX="112.0" layoutY="202.0" prefHeight="25.0" prefWidth="48.0" />
                                  </children></AnchorPane>
                         </content>

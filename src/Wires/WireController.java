@@ -6,11 +6,10 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 public class WireController {
     @FXML private Button playButton;
@@ -25,6 +24,10 @@ public class WireController {
     @FXML private Button eletailButton;
     @FXML private Button emptyButton;
     @FXML private Button clearAllButton;
+    @FXML private Slider speedSlider;
+    @FXML private TextField speedTextField;
+    @FXML private Slider durationSlider;
+    @FXML private TextField durationTextField;
 
 
     private PrintBoardFX printBoardFX;
@@ -42,7 +45,79 @@ public class WireController {
         drawCanvas.setOnMouseDragged(drawBoardFX::boardMousePressedDragged);
 
         setAutoBoardResizing(true);
+
+        initializeSpeedSlider();
     }
+
+    private void initializeSpeedSlider(){
+        speedSlider.setLabelFormatter(new StringConverter<Double>()
+        {
+            @Override
+            public String toString(Double n) {
+                if (n < 0.5) return "1";
+                if (n < 1.5) return "10";
+                if (n < 2.5) return "100";
+                if (n < 3.5) return "500";
+                if (n < 4.5) return "1000";
+                return "2000";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "1":
+                        return 0d;
+                    case "10":
+                        return 1d;
+                    case "100":
+                        return 2d;
+                    case "500":
+                        return 3d;
+                    case "1000":
+                        return 4d;
+                    case "2000":
+                        return 5d;
+
+                    default:
+                        return 3d;
+                }
+            }
+        });
+    }
+
+
+    @FXML private void speedSliderMouseRelased() {
+        int value =(int)speedSlider.getValue();
+        double valueD;
+        switch (value) {
+            case 0:
+                valueD = 1;
+                break;
+            case 1:
+                valueD = 10;
+                break;
+            case 2:
+                valueD = 100;
+                break;
+            case 3:
+                valueD = 500;
+                break;
+            case 4:
+                valueD = 1000;
+                break;
+            case 5:
+                valueD = 2000;
+                break;
+
+            default:
+                valueD = 500;
+        }
+        speedTextField.setText(String.valueOf((int)valueD));
+        timeline.setRate(1000/valueD);
+        System.out.println("rate = " + 1000/valueD);
+    }
+
+
 
     @FXML private void playButtonPressed() {
         logic.setCounter(0); //TODO Reset Button
