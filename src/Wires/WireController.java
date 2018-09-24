@@ -35,16 +35,13 @@ public class WireController {
 
 
     @FXML private void initialize() throws Exception {
-        for(int i = 0; i<board.getY_size(); i++){
-            board.setBoardCellState(5,i, Cell.State.CONDUCTOR);
-        }
-        for(int i = 0; i<board.getX_size(); i++){
-            board.setBoardCellState(i,5, Cell.State.CONDUCTOR);
-        }
         printBoardFX = new PrintBoardFX(board,drawCanvas,drawingPane);
+
         drawBoardFX = new DrawBoardFX(Cell.State.CONDUCTOR,board,printBoardFX);
         drawCanvas.setOnMouseClicked(drawBoardFX::boardMousePressedDragged);
         drawCanvas.setOnMouseDragged(drawBoardFX::boardMousePressedDragged);
+
+        setAutoBoardResizing(true);
     }
 
     @FXML private void playButtonPressed() {

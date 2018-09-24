@@ -8,7 +8,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 
 public class PrintBoardFX {
-    private int size;
     private static int scale = 40;
     private Board board;
     private Canvas drawingCanvas;
@@ -18,7 +17,6 @@ public class PrintBoardFX {
         this.board = board;
         this.drawingCanvas = drawingCanvas;
         this.drawingPane = drawingPane;
-        size = board.getX_size();
     }
 
     public static int getScale() {
@@ -26,7 +24,7 @@ public class PrintBoardFX {
     }
 
     public void draw() {
-        calculateMaxScale();
+        scale = calculateMaxScale();
         clearBoard();
         drawCells();
         drawNet();
@@ -36,8 +34,8 @@ public class PrintBoardFX {
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(1);
-        for (int i = 0; i < size; i++){
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < board.getX_size(); i++){
+            for (int j = 0; j < board.getY_size(); j++) {
                 State state = board.getBoardCellState(i,j);
                 if (state.equals(State.CONDUCTOR)) gc.setFill(Color.YELLOW);
                 else if (state.equals(State.ELEHEAD)) gc.setFill(Color.RED);
@@ -53,9 +51,13 @@ public class PrintBoardFX {
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(1);
         gc.setLineCap(StrokeLineCap.SQUARE);
-        for (int i = 0; i <= size; i++) {
-            gc.strokeLine(snap(i * scale), 0, snap(i * scale), scale * size);
-            gc.strokeLine(0, snap(i * scale), scale * size, snap(i * scale));
+        int x_size = board.getX_size();
+        int y_size = board.getY_size();
+        for (int i = 0; i <= x_size; i++) {
+            gc.strokeLine(snap(i * scale), 0, snap(i * scale), scale *  y_size);
+        }
+        for (int i = 0; i <= y_size; i++) {
+            gc.strokeLine(0, snap(i * scale), scale * x_size, snap(i * scale));
         }
     }
 
@@ -64,20 +66,25 @@ public class PrintBoardFX {
         gc.clearRect(0, 0, drawingCanvas.getWidth(), drawingCanvas.getHeight());
     }
 
-    private void calculateMaxScale() {
+    private int calculateMaxScale() {
         drawingCanvas.setHeight(drawingPane.getHeight());
         drawingCanvas.setWidth(drawingPane.getWidth());
-        double width = drawingPane.getWidth();
-        double height = drawingPane.getHeight();
-        if (height < width) {
-            scale = (int) height / (size);
+        double canvasWidth = drawingPane.getWidth();
+        double canvasHeight = drawingPane.getHeight();
+        int x_size = board.getX_size();
+        int y_size = board.getY_size();
+
+        int x_scale = (int) canvasWidth / (x_size);
+        int y_scale = (int) canvasHeight / (y_size);
+
+        if (x_scale < y_scale) {
+            return  x_scale;
         } else {
-            scale = (int) width / (size);
+            return  y_scale;
         }
-        if (scale < 1) System.out.println("Window too small to draw");
     }
 
-    private double snap(double y) {
-        return ((int) y) + .5;
+    private double snap(double val) {
+        return ((int) val) + .5;
     }
 }
