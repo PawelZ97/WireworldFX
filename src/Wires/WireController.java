@@ -1,6 +1,5 @@
 package Wires;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -38,12 +37,14 @@ public class WireController {
     private Timeline timeline = new Timeline();
 
 
-    @FXML private void initialize() throws Exception {
+    @FXML private void initialize() {
         printBoardFX = new PrintBoardFX(board,drawCanvas,drawingPane);
 
         drawBoardFX = new DrawBoardFX(Cell.State.CONDUCTOR,board,printBoardFX);
         drawCanvas.setOnMouseClicked(drawBoardFX::boardMousePressedDragged);
         drawCanvas.setOnMouseDragged(drawBoardFX::boardMousePressedDragged);
+        drawCanvas.setOnMouseMoved(drawBoardFX::boardMouseMoved);
+        drawCanvas.setOnMouseExited(drawBoardFX::boardMouseExited);
 
         setAutoBoardResizing(true);
         initializeTimeline();
@@ -153,7 +154,9 @@ public class WireController {
 
     @FXML private void playButtonPressed() {
         logic.setCounter(0); //TODO Reset Button
+        enablePreviewDrawing(false);
         timeline.play();
+
     }
 
     @FXML private void stepButtonPressed() throws Exception {
@@ -165,6 +168,7 @@ public class WireController {
 
     @FXML private void stopButtonPressed() {
         timeline.stop();
+        enablePreviewDrawing(true);
     }
 
     @FXML private void conductorButtonPressed()  { drawBoardFX.setActualState(Cell.State.CONDUCTOR); }
@@ -181,6 +185,14 @@ public class WireController {
         } else {
             drawingPane.widthProperty().removeListener(boardPaneSizeListener);
             drawingPane.heightProperty().removeListener(boardPaneSizeListener);
+        }
+    }
+
+    private void enablePreviewDrawing(boolean val) {
+        if (val) {
+            drawCanvas.setOnMouseMoved(drawBoardFX::boardMouseMoved);
+        } else {
+            drawCanvas.setOnMouseMoved(null);
         }
     }
 

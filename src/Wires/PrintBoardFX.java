@@ -30,6 +30,19 @@ public class PrintBoardFX {
         drawNet();
     }
 
+    public void drawPreview(int x_pos, int y_pos, State actualState) {
+        scale = calculateMaxScale();
+        clearBoard();
+        drawCells();
+        GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
+        if (actualState.equals(State.CONDUCTOR)) gc.setFill(new Color(1f,1f,0f,.4f));
+        else if (actualState.equals(State.ELEHEAD)) gc.setFill(new Color(1f,0f,0f,.4f));
+        else if (actualState.equals(State.ELETAIL)) gc.setFill(new Color(0f,0f,1f,.4f));
+        else  gc.setFill(new Color(1f,1f,1f,.4f));
+        gc.fillRect(x_pos * scale, y_pos * scale, scale, scale);
+        drawNet();
+    }
+
     private void drawCells(){
         GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
         gc.setStroke(Color.BLACK);

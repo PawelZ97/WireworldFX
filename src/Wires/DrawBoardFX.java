@@ -28,14 +28,26 @@ public class DrawBoardFX {
         int y_pos = convertToPos(event.getY());
         if (verifyPos(x_pos, y_pos)) {
             if (event.getButton() == MouseButton.PRIMARY) {
-                board.setBoardCellState(x_pos,y_pos, actualState);
+                board.setBoardCellState(x_pos, y_pos, actualState);
                 printBoardFX.draw();
             }
             if (event.getButton() == MouseButton.SECONDARY) {
-                board.setBoardCellState(x_pos,y_pos, Cell.State.EMPTY);
+                board.setBoardCellState(x_pos, y_pos, Cell.State.EMPTY);
                 printBoardFX.draw();
             }
         }
+    }
+
+    public void boardMouseMoved(MouseEvent event){
+        int x_pos = convertToPos(event.getX());
+        int y_pos = convertToPos(event.getY());
+        if (verifyPos(x_pos, y_pos)) {
+            printBoardFX.drawPreview(x_pos,y_pos,actualState);
+        }
+    }
+
+    public void boardMouseExited(MouseEvent event){
+        printBoardFX.draw();
     }
 
     private boolean verifyPos(int x_pos, int y_pos) {

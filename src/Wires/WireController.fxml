@@ -195,7 +195,7 @@
                                  </light>
                               </Lighting>
                            </effect></Button>
-                        <Label fx:id="generationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="16.0" prefHeight="36.0" prefWidth="90.0" text="COUNT" textAlignment="CENTER" textFill="#b50e0e" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="16.0">
+                        <Label fx:id="generationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="16.0" prefHeight="36.0" prefWidth="90.0" text="..." textAlignment="CENTER" textFill="#b50e0e" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="16.0">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
