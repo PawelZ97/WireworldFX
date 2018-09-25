@@ -16,6 +16,7 @@ public class WireController {
     @FXML private Button stepButton;
     @FXML private Button stopButton;
     @FXML private Label generationLabel;
+    @FXML private ProgressBar generationProgressBar;
     @FXML private Canvas drawCanvas;
     @FXML private AnchorPane drawingPane;
     @FXML private Tab drawTab;
@@ -26,15 +27,15 @@ public class WireController {
     @FXML private Button clearAllButton;
     @FXML private Slider speedSlider;
     @FXML private TextField speedTextField;
-    @FXML private Slider durationSlider;
-    @FXML private TextField durationTextField;
+    @FXML private Slider generationSlider;
+    @FXML private TextField generationTextField;
 
 
     private PrintBoardFX printBoardFX;
     private DrawBoardFX drawBoardFX;
     private Board board = new Board();
     private WireLogicEngine logic = new WireLogicEngine(board);
-    private Timeline timeline;
+    private Timeline timeline = new Timeline();
 
 
     @FXML private void initialize() throws Exception {
@@ -45,7 +46,7 @@ public class WireController {
         drawCanvas.setOnMouseDragged(drawBoardFX::boardMousePressedDragged);
 
         setAutoBoardResizing(true);
-
+        initializeTimeline();
         initializeSpeedSlider();
     }
 
@@ -85,6 +86,24 @@ public class WireController {
         });
     }
 
+    private void initializeTimeline(){
+        timeline.setRate(2);
+        timeline.setCycleCount(1000);
+        timeline.getKeyFrames().add(new KeyFrame(
+                Duration.millis(1000),
+                ae -> {
+                    try {
+                        logic.tick();
+                        int cnt = logic.getCounter();
+                        generationLabel.setText(Integer.toString(cnt));
+                        generationProgressBar.setProgress(1.0*cnt/timeline.getCycleCount());
+                        printBoardFX.draw();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }));
+    }
+
 
     @FXML private void speedSliderMouseRelased() {
         int value =(int)speedSlider.getValue();
@@ -114,25 +133,26 @@ public class WireController {
         }
         speedTextField.setText(String.valueOf((int)valueD));
         timeline.setRate(1000/valueD);
-        System.out.println("rate = " + 1000/valueD);
     }
 
+    @FXML private void speedTextFieldAction() {
+        double valueD = Double.parseDouble(speedTextField.getText());
+        timeline.setRate(1000/valueD);
+    }
 
+    @FXML private void generationSliderMouseRelased() {
+        int value = (int)generationSlider.getValue();
+        generationTextField.setText(String.valueOf(value));
+        timeline.setCycleCount(value);
+    }
+
+    @FXML private void generationTextFieldAction() {
+        timeline.setCycleCount(Integer.parseInt(generationTextField.getText()));
+
+    }
 
     @FXML private void playButtonPressed() {
         logic.setCounter(0); //TODO Reset Button
-        timeline = new Timeline(new KeyFrame(
-                Duration.millis(1000),
-                ae -> {
-                    try {
-                        logic.tick();
-                        generationLabel.setText(Integer.toString(logic.getCounter()));
-                        printBoardFX.draw();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }));
-        timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 

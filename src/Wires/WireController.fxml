@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -50,23 +51,23 @@
                   <Canvas fx:id="drawCanvas" height="400.0" width="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
-            <AnchorPane maxHeight="1.7976931348623157E308" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TabPane prefHeight="300.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TabPane maxHeight="400.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
                       <Tab text="Sim">
                         <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                  <rotationAxis>
                                     <Point3D />
                                  </rotationAxis>
                                  <children>
-                                    <Slider fx:id="speedSlider" blockIncrement="1.0" layoutX="33.0" layoutY="51.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" onMouseReleased="#speedSliderMouseRelased" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" />
-                                    <Slider layoutX="124.0" layoutY="51.0" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" />
-                                    <Label layoutX="20.0" layoutY="21.0" text="Speed[ms]" />
-                                    <Label layoutX="112.0" layoutY="21.0" text="Duration" />
-                                    <TextField fx:id="speedTextField" layoutX="24.0" layoutY="202.0" prefHeight="25.0" prefWidth="48.0" />
-                                    <TextField layoutX="112.0" layoutY="202.0" prefHeight="25.0" prefWidth="48.0" />
+                                    <Slider fx:id="speedSlider" blockIncrement="1.0" layoutX="33.0" layoutY="51.0" majorTickUnit="1.0" max="5.0" maxHeight="200.0" minorTickCount="0" onMouseReleased="#speedSliderMouseRelased" orientation="VERTICAL" prefWidth="50.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="50.0" />
+                                    <Slider fx:id="generationSlider" layoutX="112.0" layoutY="51.0" majorTickUnit="100.0" max="1000.0" maxHeight="200.0" onMouseClicked="#generationSliderMouseRelased" onMouseDragged="#generationSliderMouseRelased" orientation="VERTICAL" prefWidth="50.0" showTickLabels="true" showTickMarks="true" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="50.0" />
+                                    <Label layoutX="20.0" layoutY="21.0" text="Speed[ms]" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+                                    <Label layoutX="104.0" layoutY="21.0" text="Generations" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+                                    <TextField fx:id="speedTextField" layoutX="26.0" layoutY="215.0" onAction="#speedTextFieldAction" prefHeight="25.0" prefWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="26.0" />
+                                    <TextField fx:id="generationTextField" layoutX="112.0" layoutY="202.0" onAction="#generationTextFieldAction" prefHeight="25.0" prefWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="26.0" />
                                  </children></AnchorPane>
                         </content>
                       </Tab>
@@ -202,6 +203,18 @@
                               <Glow level="0.72" />
                            </effect>
                         </Label>
+                        <ProgressBar fx:id="generationProgressBar" layoutX="10.0" layoutY="53.0" prefHeight="18.0" prefWidth="80.0" progress="0.0">
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant color="#ffd3d3" elevation="103.61" />
+                                 </light>
+                              </Lighting>
+                           </effect>
+                        </ProgressBar>
                      </children>
                   </AnchorPane>
                </children>
