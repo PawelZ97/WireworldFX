@@ -63,11 +63,11 @@
                                  </rotationAxis>
                                  <children>
                                     <Slider fx:id="speedSlider" blockIncrement="1.0" layoutX="33.0" layoutY="51.0" majorTickUnit="1.0" max="5.0" maxHeight="200.0" minorTickCount="0" onMouseReleased="#speedSliderMouseRelased" orientation="VERTICAL" prefWidth="50.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="50.0" />
-                                    <Slider fx:id="generationSlider" layoutX="112.0" layoutY="51.0" majorTickUnit="100.0" max="1000.0" maxHeight="200.0" onMouseClicked="#generationSliderMouseRelased" onMouseDragged="#generationSliderMouseRelased" orientation="VERTICAL" prefWidth="50.0" showTickLabels="true" showTickMarks="true" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="50.0" />
+                                    <Slider fx:id="generationSlider" layoutX="112.0" layoutY="51.0" majorTickUnit="100.0" max="1000.0" maxHeight="200.0" onMouseClicked="#generationSliderMouseRelased" onMouseDragged="#generationSliderMouseRelased" orientation="VERTICAL" prefWidth="50.0" showTickLabels="true" showTickMarks="true" value="1000.0" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="50.0" />
                                     <Label layoutX="20.0" layoutY="21.0" text="Speed[ms]" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
                                     <Label layoutX="104.0" layoutY="21.0" text="Generations" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
-                                    <TextField fx:id="speedTextField" layoutX="26.0" layoutY="215.0" onAction="#speedTextFieldAction" prefHeight="25.0" prefWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="26.0" />
-                                    <TextField fx:id="generationTextField" layoutX="112.0" layoutY="202.0" onAction="#generationTextFieldAction" prefHeight="25.0" prefWidth="60.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="26.0" />
+                                    <TextField fx:id="speedTextField" layoutX="26.0" layoutY="215.0" onAction="#speedTextFieldAction" prefHeight="25.0" prefWidth="60.0" text="500" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="26.0" />
+                                    <TextField fx:id="generationTextField" layoutX="112.0" layoutY="202.0" onAction="#generationTextFieldAction" prefHeight="25.0" prefWidth="60.0" text="1000" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="26.0" />
                                  </children></AnchorPane>
                         </content>
                       </Tab>
@@ -155,7 +155,7 @@
                            </fill></Rectangle>
                         <Button fx:id="playButton" layoutX="100.0" layoutY="14.0" mnemonicParsing="false" onAction="#playButtonPressed" text="Play" textFill="#008d07" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold Italic" size="12.0" />
                            </font>
                            <effect>
                               <Lighting>
@@ -181,7 +181,7 @@
                                  </light>
                               </Lighting>
                            </effect></Button>
-                        <Button fx:id="stopButton" layoutX="100.0" layoutY="63.0" mnemonicParsing="false" onAction="#stopButtonPressed" prefWidth="90.0" text="Stop" textFill="#6f0000" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
+                        <Button fx:id="resetButton" layoutX="100.0" layoutY="63.0" mnemonicParsing="false" onAction="#resetButtonPressed" prefWidth="90.0" text="Revert" textFill="#0050e4" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="10.0">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font>
@@ -191,7 +191,7 @@
                                     <Shadow />
                                  </bumpInput>
                                  <light>
-                                    <Light.Distant azimuth="190.0" color="RED" elevation="57.56" />
+                                    <Light.Distant azimuth="190.0" color="#0060ff" elevation="57.56" />
                                  </light>
                               </Lighting>
                            </effect></Button>
@@ -215,6 +215,21 @@
                               </Lighting>
                            </effect>
                         </ProgressBar>
+                        <Button fx:id="stopButton" layoutX="100.0" layoutY="9.0" mnemonicParsing="false" onAction="#stopButtonPressed" prefWidth="90.0" text="Stop" textFill="#6f0000" visible="false">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                           <effect>
+                              <Lighting>
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                                 <light>
+                                    <Light.Distant azimuth="190.0" color="RED" elevation="57.56" />
+                                 </light>
+                              </Lighting>
+                           </effect>
+                        </Button>
                      </children>
                   </AnchorPane>
                </children>

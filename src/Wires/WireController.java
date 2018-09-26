@@ -14,6 +14,7 @@ public class WireController {
     @FXML private Button playButton;
     @FXML private Button stepButton;
     @FXML private Button stopButton;
+    @FXML private Button resetButton;
     @FXML private Label generationLabel;
     @FXML private ProgressBar generationProgressBar;
     @FXML private Canvas drawCanvas;
@@ -49,6 +50,8 @@ public class WireController {
         setAutoBoardResizing(true);
         initializeTimeline();
         initializeSpeedSlider();
+
+        drawDebug();
     }
 
     private void initializeSpeedSlider(){
@@ -105,6 +108,16 @@ public class WireController {
                 }));
     }
 
+    private void drawDebug(){
+        for(int i=0;i<5;i++) {
+            board.setBoardCellState(i+3,3, Cell.State.CONDUCTOR);
+            board.setBoardCellState(i+3,8, Cell.State.CONDUCTOR);
+            board.setBoardCellState(3,4+i, Cell.State.CONDUCTOR);
+            board.setBoardCellState(8,4+i, Cell.State.CONDUCTOR);
+            board.setBoardCellState(5,3, Cell.State.ELEHEAD);
+            board.setBoardCellState(6,3, Cell.State.ELETAIL);
+        }
+    }
 
     @FXML private void speedSliderMouseRelased() {
         int value =(int)speedSlider.getValue();
@@ -153,9 +166,12 @@ public class WireController {
     }
 
     @FXML private void playButtonPressed() {
-        logic.setCounter(0); //TODO Reset Button
+        logic.saveBoard();
+        logic.setCounter(0);
         enablePreviewDrawing(false);
         timeline.play();
+        stopButton.setVisible(true);
+        playButton.setVisible(false);
 
     }
 
@@ -169,6 +185,13 @@ public class WireController {
     @FXML private void stopButtonPressed() {
         timeline.stop();
         enablePreviewDrawing(true);
+        playButton.setVisible(true);
+        stopButton.setVisible(false);
+    }
+
+    @FXML private void resetButtonPressed() {
+       logic.revertBoard();
+       printBoardFX.draw();
     }
 
     @FXML private void conductorButtonPressed()  { drawBoardFX.setActualState(Cell.State.CONDUCTOR); }
@@ -202,7 +225,6 @@ public class WireController {
         } catch (Exception e) {
         }
     };
-
 }
 
 
