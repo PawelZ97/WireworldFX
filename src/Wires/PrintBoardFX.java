@@ -1,6 +1,7 @@
 package Wires;
 
 import Wires.Cell.State;
+import Wires.Elements.WireComponent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
@@ -40,6 +41,25 @@ public class PrintBoardFX {
         else if (actualState.equals(State.ELETAIL)) gc.setFill(new Color(0f,0f,1f,.4f));
         else  gc.setFill(new Color(1f,1f,1f,.4f));
         gc.fillRect(x_pos * scale, y_pos * scale, scale, scale);
+        drawNet();
+    }
+
+    public void drawElementPreview(int x_pos, int y_pos, WireComponent component) {
+        scale = calculateMaxScale();
+        clearBoard();
+        drawCells();
+        GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
+
+        for (int i = 0; i < component.getX_size(); i++) {
+            for (int j = 0; j < component.getY_size(); j++) {
+                if (component.getState(i,j).equals(State.CONDUCTOR)) gc.setFill(new Color(1f,1f,0f,.75f));
+                else if (component.getState(i,j).equals(State.ELEHEAD)) gc.setFill(new Color(1f,0f,0f,.75f));
+                else if (component.getState(i,j).equals(State.ELETAIL)) gc.setFill(new Color(0f,0f,1f,.75f));
+                else  gc.setFill(new Color(1f,1f,1f,.75f));
+
+                gc.fillRect((x_pos+i) * scale, (y_pos+j) * scale, scale, scale);
+                }
+            }
         drawNet();
     }
 

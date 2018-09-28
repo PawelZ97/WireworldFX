@@ -3,6 +3,8 @@ package Wires;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
@@ -29,6 +31,8 @@ public class WireController {
     @FXML private TextField speedTextField;
     @FXML private Slider generationSlider;
     @FXML private TextField generationTextField;
+    @FXML private ListView<String> wireComponentListView;
+    @FXML private Button doneButton;
 
 
     private PrintBoardFX printBoardFX;
@@ -37,13 +41,16 @@ public class WireController {
     private WireLogicEngine logic = new WireLogicEngine(board);
     private Timeline timeline = new Timeline();
 
+    private UseElementFX useElementFX;
+
 
     @FXML private void initialize() {
         printBoardFX = new PrintBoardFX(board,drawCanvas,drawingPane);
-
         drawBoardFX = new DrawBoardFX(Cell.State.CONDUCTOR,board,printBoardFX);
-        drawCanvas.setOnMouseClicked(drawBoardFX::boardMousePressedDragged);
-        drawCanvas.setOnMouseDragged(drawBoardFX::boardMousePressedDragged);
+        useElementFX = new UseElementFX(board,printBoardFX);
+
+        drawCanvas.setOnMouseClicked(drawBoardFX::boardMouseClickedDragged);
+        drawCanvas.setOnMouseDragged(drawBoardFX::boardMouseClickedDragged);
         drawCanvas.setOnMouseMoved(drawBoardFX::boardMouseMoved);
         drawCanvas.setOnMouseExited(drawBoardFX::boardMouseExited);
 
@@ -52,6 +59,9 @@ public class WireController {
         initializeSpeedSlider();
 
         drawDebug();
+
+        ObservableList<String> list = FXCollections.observableArrayList("Diode","DiodeRev","OrGate","AndGate");
+        wireComponentListView.setItems(list);
     }
 
     private void initializeSpeedSlider(){
@@ -147,6 +157,20 @@ public class WireController {
         }
         speedTextField.setText(String.valueOf((int)valueD));
         timeline.setRate(1000/valueD);
+    }
+
+    @FXML private void wireComponentListViewClicked(){
+        useElementFX.setComponent(wireComponentListView.getSelectionModel().getSelectedItem());
+        drawCanvas.setOnMouseClicked(useElementFX::boardMouseClicked);
+        drawCanvas.setOnMouseMoved(useElementFX::boardMouseMoved);
+        drawCanvas.setOnMouseDragged(useElementFX::boardMouseExited);
+    }
+
+    @FXML private void doneButtonPressed() {
+        drawCanvas.setOnMouseClicked(drawBoardFX::boardMouseClickedDragged);
+        drawCanvas.setOnMouseDragged(drawBoardFX::boardMouseClickedDragged);
+        drawCanvas.setOnMouseMoved(drawBoardFX::boardMouseMoved);
+        drawCanvas.setOnMouseExited(drawBoardFX::boardMouseExited);
     }
 
     @FXML private void speedTextFieldAction() {

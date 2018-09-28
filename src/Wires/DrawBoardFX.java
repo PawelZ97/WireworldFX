@@ -23,7 +23,7 @@ public class DrawBoardFX {
         printBoardFX.draw();
     }
 
-    public void boardMousePressedDragged(MouseEvent event) {
+    public void boardMouseClickedDragged(MouseEvent event) {
         int x_pos = convertToPos(event.getX());
         int y_pos = convertToPos(event.getY());
         if (verifyPos(x_pos, y_pos)) {
