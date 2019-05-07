@@ -2,6 +2,7 @@ package Wires;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 /**
  * Created by zychp_w10 on 12.05.2017.
@@ -10,9 +11,18 @@ public class Board {
     /**
      * Klasa Board pozwala tworzyć plansze automatu komórkowego.
      */
-    private int x_size;
-    private int y_size;
+    private int x_size = 20;
+    private int y_size = 15;
     private Cell[][] board;
+
+    public Board(){
+        board = new Cell[x_size+2][y_size+2];
+        for (int i = 0; i < x_size + 2; i++) {
+            for (int j = 0; j < y_size + 2; j++) {
+                board[i][j] = new Cell(Cell.State.EMPTY);
+            }
+        }
+    }
 
     public Board(int x_size, int y_size) {
         /**
@@ -27,6 +37,14 @@ public class Board {
         for (int i = 0; i < x_size + 2; i++) {
             for (int j = 0; j < y_size + 2; j++) {
                 board[i][j] = new Cell(Cell.State.EMPTY);
+            }
+        }
+    }
+
+    public void setAllBoard(Cell.State state) {
+        for (int i=0; i<x_size; i++) {
+            for (int j=0; j<y_size; j++) {
+                setBoardCellState(i,j,state);
             }
         }
     }
@@ -137,9 +155,9 @@ public class Board {
          * Drukuję planszę do konsoli tekstowej.
          * Przydatne przy debugowaniu.
          */
-        for (int i = 0; i < y_size + 2; i++) {
-            for (int j = 0; j < x_size + 2; j++) {
-                System.out.print(getBorderBoardCell(j, i) + " ");
+        for (int i = 0; i < x_size + 2; i++) {
+            for (int j = 0; j < y_size + 2; j++) {
+                System.out.print(getBorderBoardCell(i, j) + " ");
             }
             System.out.print("\n");
         }
@@ -153,9 +171,9 @@ public class Board {
          */
 
         PrintWriter out = new PrintWriter(filename);
-        for (int i = 0; i < y_size; i++) {
-            for (int j = 0; j < x_size; j++) {
-                out.print(getBoardCell(j, i) + "-");
+        for (int i = 0; i < x_size; i++) {
+            for (int j = 0; j < y_size; j++) {
+                out.print(getBoardCell(i, j) + "-");
             }
             out.print("\n");
         }

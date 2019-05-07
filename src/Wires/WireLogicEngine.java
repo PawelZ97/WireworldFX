@@ -11,6 +11,8 @@ public class WireLogicEngine {
     private int y_size;
     private Board before;
     private Board after;
+    private Board savedBoard;
+    private int counter;
 
     public WireLogicEngine(int x_size, int y_size) {
         /**
@@ -22,9 +24,11 @@ public class WireLogicEngine {
         this.y_size = y_size;
         this.before = new Board(x_size,y_size);
         this.after = new Board(x_size, y_size);
+        this.savedBoard = new Board(x_size,y_size);
+        this.counter = 0;
     }
 
-    public WireLogicEngine(Board before) {
+    WireLogicEngine(Board before) {
         /**
          * Tworzy nowy silnik przy pomocy planszy.
          * @param before Plansza poprzednia.
@@ -33,6 +37,8 @@ public class WireLogicEngine {
         this.x_size = before.getX_size();
         this.y_size = before.getY_size();
         this.after = new Board(x_size, y_size);
+        this.savedBoard = new Board(x_size,y_size);
+        this.counter = 0;
     }
 
     public void setBefore(Board before) {
@@ -54,6 +60,22 @@ public class WireLogicEngine {
         return before;
     }
 
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public void saveBoard() {
+        savedBoard.setBorderBoard(before.getBorderBoard().clone());
+    }
+
+    public void revertBoard() {
+        before.setBorderBoard(savedBoard.getBorderBoard().clone());
+    }
+
     public void tick() throws Exception {
         /**
          * Wykonuje jeden cykl logiki.
@@ -61,7 +83,7 @@ public class WireLogicEngine {
         calculate();
         copy();
         after = new Board(x_size, y_size);
-        //getBefore().printBorderBoardToConsole();
+        counter++;
     }
 
     private void copy(){

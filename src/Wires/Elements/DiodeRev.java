@@ -1,9 +1,12 @@
-package Wires;
+package Wires.Elements;
+
+import Wires.Cell;
+import Wires.Elements.WireComponent;
 
 /**
  * Created by zychp_w10 on 27.05.2017.
  */
-public class DiodeRev implements WireComponent{
+public class DiodeRev implements WireComponent {
     private Cell[][] table;
     private int x_size;
     private int y_size;

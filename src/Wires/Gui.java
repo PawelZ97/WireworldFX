@@ -1,5 +1,7 @@
 package Wires;
 
+import Wires.Elements.*;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
