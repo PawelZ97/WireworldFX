@@ -36,36 +36,36 @@ public class WireController {
 
 
     private PrintBoardFX printBoardFX;
-    private DrawBoardFX drawBoardFX;
-    private Board board = new Board();
-    private WireLogicEngine logic = new WireLogicEngine(board);
-    private Timeline timeline = new Timeline();
+    private MouseDrawFX mouseDrawFX;
+    private Board board = new Board(25,25);
+    private final WireLogicEngine logic = new WireLogicEngine(board);
+    private final Timeline timeline = new Timeline();
 
     private UseElementFX useElementFX;
 
 
     @FXML private void initialize() {
         printBoardFX = new PrintBoardFX(board,drawCanvas,drawingPane);
-        drawBoardFX = new DrawBoardFX(com.zychp.Wires.Cell.State.CONDUCTOR,board,printBoardFX);
+        mouseDrawFX = new MouseDrawFX(Cell.State.CONDUCTOR,board,printBoardFX);
         useElementFX = new UseElementFX(board,printBoardFX);
 
-        drawCanvas.setOnMouseClicked(drawBoardFX::boardMouseClickedDragged);
-        drawCanvas.setOnMouseDragged(drawBoardFX::boardMouseClickedDragged);
-        drawCanvas.setOnMouseMoved(drawBoardFX::boardMouseMoved);
-        drawCanvas.setOnMouseExited(drawBoardFX::boardMouseExited);
+        drawCanvas.setOnMouseClicked(mouseDrawFX::boardMouseClickedDragged);
+        drawCanvas.setOnMouseDragged(mouseDrawFX::boardMouseClickedDragged);
+        drawCanvas.setOnMouseMoved(mouseDrawFX::boardMouseMoved);
+        drawCanvas.setOnMouseExited(mouseDrawFX::boardMouseExited);
 
         setAutoBoardResizing(true);
         initializeTimeline();
         initializeSpeedSlider();
 
-        drawDebug();
+        drawDebug(true);
 
         ObservableList<String> list = FXCollections.observableArrayList("Diode","DiodeRev","OrGate","AndGate");
         wireComponentListView.setItems(list);
     }
 
     private void initializeSpeedSlider(){
-        speedSlider.setLabelFormatter(new StringConverter<Double>()
+        speedSlider.setLabelFormatter(new StringConverter<>()
         {
             @Override
             public String toString(Double n) {
@@ -118,14 +118,16 @@ public class WireController {
                 }));
     }
 
-    private void drawDebug(){
-        for(int i=0;i<5;i++) {
-            board.setBoardCellState(i+3,3, com.zychp.Wires.Cell.State.CONDUCTOR);
-            board.setBoardCellState(i+3,8, com.zychp.Wires.Cell.State.CONDUCTOR);
-            board.setBoardCellState(3,4+i, com.zychp.Wires.Cell.State.CONDUCTOR);
-            board.setBoardCellState(8,4+i, com.zychp.Wires.Cell.State.CONDUCTOR);
-            board.setBoardCellState(5,3, com.zychp.Wires.Cell.State.ELEHEAD);
-            board.setBoardCellState(6,3, com.zychp.Wires.Cell.State.ELETAIL);
+    private void drawDebug(boolean enabled){
+        if (enabled) {
+            for (int i = 0; i < 5; i++) {
+                board.setBoardCellState(i + 3, 3, com.zychp.Wires.Cell.State.CONDUCTOR);
+                board.setBoardCellState(i + 3, 8, com.zychp.Wires.Cell.State.CONDUCTOR);
+                board.setBoardCellState(3, 4 + i, com.zychp.Wires.Cell.State.CONDUCTOR);
+                board.setBoardCellState(8, 4 + i, com.zychp.Wires.Cell.State.CONDUCTOR);
+                board.setBoardCellState(5, 3, com.zychp.Wires.Cell.State.ELEHEAD);
+                board.setBoardCellState(6, 3, com.zychp.Wires.Cell.State.ELETAIL);
+            }
         }
     }
 
@@ -167,10 +169,10 @@ public class WireController {
     }
 
     @FXML private void doneButtonPressed() {
-        drawCanvas.setOnMouseClicked(drawBoardFX::boardMouseClickedDragged);
-        drawCanvas.setOnMouseDragged(drawBoardFX::boardMouseClickedDragged);
-        drawCanvas.setOnMouseMoved(drawBoardFX::boardMouseMoved);
-        drawCanvas.setOnMouseExited(drawBoardFX::boardMouseExited);
+        drawCanvas.setOnMouseClicked(mouseDrawFX::boardMouseClickedDragged);
+        drawCanvas.setOnMouseDragged(mouseDrawFX::boardMouseClickedDragged);
+        drawCanvas.setOnMouseMoved(mouseDrawFX::boardMouseMoved);
+        drawCanvas.setOnMouseExited(mouseDrawFX::boardMouseExited);
     }
 
     @FXML private void speedTextFieldAction() {
@@ -199,7 +201,7 @@ public class WireController {
 
     }
 
-    @FXML private void stepButtonPressed() throws Exception {
+    @FXML private void stepButtonPressed() {
         logic.tick();
         logic.setCounter(0);
         generationLabel.setText("1");
@@ -218,11 +220,11 @@ public class WireController {
        printBoardFX.draw();
     }
 
-    @FXML private void conductorButtonPressed()  { drawBoardFX.setActualState(com.zychp.Wires.Cell.State.CONDUCTOR); }
-    @FXML private void eleheadButtonPressed()  { drawBoardFX.setActualState(com.zychp.Wires.Cell.State.ELEHEAD); }
-    @FXML private void eletailButtonPressed()  { drawBoardFX.setActualState(com.zychp.Wires.Cell.State.ELETAIL); }
-    @FXML private void emptyButtonPressed()  { drawBoardFX.setActualState(Cell.State.EMPTY); }
-    @FXML private void clearAllButtonPressed() { drawBoardFX.clearAllBoard(); }
+    @FXML private void conductorButtonPressed()  { mouseDrawFX.setMouseDrawState(com.zychp.Wires.Cell.State.CONDUCTOR); }
+    @FXML private void eleheadButtonPressed()  { mouseDrawFX.setMouseDrawState(com.zychp.Wires.Cell.State.ELEHEAD); }
+    @FXML private void eletailButtonPressed()  { mouseDrawFX.setMouseDrawState(com.zychp.Wires.Cell.State.ELETAIL); }
+    @FXML private void emptyButtonPressed()  { mouseDrawFX.setMouseDrawState(Cell.State.EMPTY); }
+    @FXML private void clearAllButtonPressed() { mouseDrawFX.clearAllBoard(); }
 
 
     private void setAutoBoardResizing(boolean value) {
@@ -237,7 +239,7 @@ public class WireController {
 
     private void enablePreviewDrawing(boolean val) {
         if (val) {
-            drawCanvas.setOnMouseMoved(drawBoardFX::boardMouseMoved);
+            drawCanvas.setOnMouseMoved(mouseDrawFX::boardMouseMoved);
         } else {
             drawCanvas.setOnMouseMoved(null);
         }
@@ -246,7 +248,7 @@ public class WireController {
     private ChangeListener<Number> boardPaneSizeListener = (observable, oldValue, newValue) -> {
         try {
             printBoardFX.draw();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     };
 }

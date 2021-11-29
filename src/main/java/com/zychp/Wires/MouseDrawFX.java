@@ -3,19 +3,19 @@ package com.zychp.Wires;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
-public class DrawBoardFX {
-    private Cell.State actualState;
-    private Board board;
-    private PrintBoardFX printBoardFX;
+public class MouseDrawFX {
+    private Cell.State mouseDrawState;
+    private final Board board;
+    private final PrintBoardFX printBoardFX;
 
-    DrawBoardFX(Cell.State actualState, Board board, PrintBoardFX printBoardFX) {
-        this.actualState = actualState;
+    MouseDrawFX(Cell.State mouseDrawState, Board board, PrintBoardFX printBoardFX) {
+        this.mouseDrawState = mouseDrawState;
         this.board = board;
         this.printBoardFX = printBoardFX;
     }
 
-    public void setActualState(Cell.State actualState) {
-        this.actualState = actualState;
+    public void setMouseDrawState(Cell.State mouseDrawState) {
+        this.mouseDrawState = mouseDrawState;
     }
 
     public void clearAllBoard() {
@@ -28,7 +28,7 @@ public class DrawBoardFX {
         int y_pos = convertToPos(event.getY());
         if (verifyPos(x_pos, y_pos)) {
             if (event.getButton() == MouseButton.PRIMARY) {
-                board.setBoardCellState(x_pos, y_pos, actualState);
+                board.setBoardCellState(x_pos, y_pos, mouseDrawState);
                 printBoardFX.draw();
             }
             if (event.getButton() == MouseButton.SECONDARY) {
@@ -42,7 +42,7 @@ public class DrawBoardFX {
         int x_pos = convertToPos(event.getX());
         int y_pos = convertToPos(event.getY());
         if (verifyPos(x_pos, y_pos)) {
-            printBoardFX.drawPreview(x_pos,y_pos,actualState);
+            printBoardFX.drawPreview(x_pos,y_pos, mouseDrawState);
         }
     }
 

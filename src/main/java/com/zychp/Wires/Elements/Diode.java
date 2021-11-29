@@ -9,11 +9,11 @@ public class Diode implements WireComponent {
     /**
      * Komponent do rysowania.
      */
-    private Cell[][] table;
-    private int x_size;
-    private int y_size;
-    private int x_handler;
-    private int y_handler;
+    private final Cell[][] table;
+    private final int x_size;
+    private final int y_size;
+    private final int x_handler;
+    private final int y_handler;
 
     public Diode() {
         /**

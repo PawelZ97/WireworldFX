@@ -6,11 +6,11 @@ import com.zychp.Wires.Cell;
  * Created by zychp_w10 on 28.05.2017.
  */
 public class OrGate implements WireComponent {
-    private Cell[][] table;
-    private int x_size;
-    private int y_size;
-    private int x_handler;
-    private int y_handler;
+    private final Cell[][] table;
+    private final int x_size;
+    private final int y_size;
+    private final int x_handler;
+    private final int y_handler;
 
     public OrGate() {
         x_size = 7;

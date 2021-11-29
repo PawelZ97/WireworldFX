@@ -110,11 +110,7 @@ public class PrintBoardFX {
         int x_scale = (int) canvasWidth / (x_size);
         int y_scale = (int) canvasHeight / (y_size);
 
-        if (x_scale < y_scale) {
-            return  x_scale;
-        } else {
-            return  y_scale;
-        }
+        return Math.min(x_scale, y_scale);
     }
 
     private double snap(double val) {

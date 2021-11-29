@@ -7,14 +7,9 @@ import java.util.Scanner;
  * Created by zychp_w10 on 24.05.2017.
  */
 public class BoardReader {
-    /**
-     * Wczytuje planszę z pliku.
-     */
-    private int x_size;
-    private int y_size;
-    private int x_size_max;
-    private int y_size_max;
-    private File file;
+    private final int x_size_max;
+    private final int y_size_max;
+    private final File file;
 
     public BoardReader(int x_size_max, int y_size_max, File file) {
         /**
@@ -41,29 +36,38 @@ public class BoardReader {
         x_read = (in.nextLine().length() / 2);
         in = new Scanner(file);
         if (x_read > x_size_max)
-            throw new Exception("Read x_size is too big " + Integer.toString(x_read));
+            throw new Exception("Read x_size is too big " + x_read);
         while (in.hasNextLine()) {
             String line = in.nextLine();
             if ((line.length() / 2) != x_read)
                 throw new Exception("Board file bad structure. Not the same line lenght.");
             String[] code = line.split("-");
             for (int i = 0; i < x_read; i++) {
-                if (code[i].equals("C"))
-                    tmpboard[i][y_read] = new Cell(Cell.State.CONDUCTOR);
-                else if (code[i].equals("H"))
-                    tmpboard[i][y_read] = new Cell(Cell.State.ELEHEAD);
-                else if (code[i].equals("T"))
-                    tmpboard[i][y_read] = new Cell(Cell.State.ELETAIL);
-                else
-                    tmpboard[i][y_read] = new Cell(Cell.State.EMPTY);
+                switch (code[i]) {
+                    case "C":
+                        tmpboard[i][y_read] = new Cell(Cell.State.CONDUCTOR);
+                        break;
+                    case "H":
+                        tmpboard[i][y_read] = new Cell(Cell.State.ELEHEAD);
+                        break;
+                    case "T":
+                        tmpboard[i][y_read] = new Cell(Cell.State.ELETAIL);
+                        break;
+                    default:
+                        tmpboard[i][y_read] = new Cell(Cell.State.EMPTY);
+                        break;
+                }
             }
             y_read++;
             if (y_read > y_size_max)
-                throw new Exception("Read y_size is too big " + Integer.toString(y_read));
+                throw new Exception("Read y_size is too big " + y_read);
         }
-        x_size = x_read;
-        y_size = y_read;
-        Board board = new Board(x_size,y_size);
+        /**
+         * Wczytuje planszę z pliku.
+         */
+        int x_size = x_read;
+        int y_size = y_read;
+        Board board = new Board(x_size, y_size);
 
         for(int i=0; i< x_read; i++) {
             for(int j=0; j< y_read; j++)
